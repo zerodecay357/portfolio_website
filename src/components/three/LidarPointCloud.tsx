@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import * as THREE from "three";
 import { mulberry32 } from "@/lib/rng";
+import HexapodModel from "./HexapodModel";
 
 // Procedural stand-in for a FAST-LIO2 scan-to-map point cloud: a room shell
 // (floor + four walls) plus scattered clutter, colored by height like a
@@ -76,11 +77,10 @@ export default function LidarPointCloud() {
         </bufferGeometry>
         <pointsMaterial size={0.03} vertexColors sizeAttenuation />
       </points>
-      {/* robot pose marker at scan origin */}
-      <mesh position={[0, 0.15, 0]}>
-        <coneGeometry args={[0.09, 0.22, 12]} />
-        <meshStandardMaterial color="#B9826A" />
-      </mesh>
+      {/* robot pose marker at scan origin — the actual hexapod, scaled down */}
+      <group position={[0, 0, 0]} scale={1.8}>
+        <HexapodModel glowIntensity={0.4} />
+      </group>
     </group>
   );
 }

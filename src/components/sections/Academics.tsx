@@ -5,9 +5,11 @@ const achievements = [
 ];
 
 const mentors = [
-  { name: "Prof. Rohit Vaish", note: "game theory & apportionment research" },
-  { name: "Prof. Rijurekha Sen", note: "systems mentorship" },
-  { name: "Prof. Smruti Ranjan Sarangi", note: "computer architecture mentorship" },
+  {
+    name: "Prof. Rohit Vaish",
+    note: "game theory & apportionment research",
+    href: "https://rohitvaish.in/",
+  },
 ];
 
 export default function Academics() {
@@ -57,8 +59,15 @@ export default function Academics() {
             <ul className="mt-4 space-y-3">
               {mentors.map((m) => (
                 <li key={m.name} className="font-body text-[14.5px] text-ink">
-                  <span className="font-700">{m.name}</span>{" "}
-                  <span className="text-muted-2">&mdash; {m.note}</span>
+                  <a
+                    href={m.href}
+                    target="_blank"
+                    rel="noopener"
+                    className="font-700 text-ink transition-colors hover:text-terracotta"
+                  >
+                    {m.name}
+                  </a>{" "}
+                  <span className="text-muted-2">{m.note}</span>
                 </li>
               ))}
             </ul>

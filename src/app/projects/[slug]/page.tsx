@@ -80,6 +80,47 @@ export default async function ProjectPage({
           </div>
         )}
 
+        {project.video && (
+          <div className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
+            <video
+              src={project.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="block h-auto w-full"
+            />
+          </div>
+        )}
+
+        {project.problemStatement && (
+          <div className="mt-10 rounded-lg border border-noir-border bg-noir-surface p-6">
+            <h2 className="font-heading text-[13px] font-700 uppercase tracking-[2px] text-accent">
+              Problem Statement
+            </h2>
+            <div className="mt-3 space-y-3">
+              {project.problemStatement.map((p, i) => (
+                <p key={i} className="font-body text-[15px] leading-relaxed text-cream/90">
+                  {p}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {project.algorithmVideo && (
+          <div className="mt-6 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
+            <video
+              src={project.algorithmVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="block h-auto w-full"
+            />
+          </div>
+        )}
+
         <div className="mt-14 space-y-12">
           {project.sections ? (
             <>

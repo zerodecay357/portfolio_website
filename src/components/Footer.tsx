@@ -41,8 +41,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-[1180px] border-t border-noir-border pt-6 text-[12px] text-dim">
-        © {new Date().getFullYear()} Shivanshu Aryan. Built with Next.js, R3F
-        &amp; Motion.
+        © {new Date().getFullYear()} Shivanshu Aryan.
       </div>
     </footer>
   );

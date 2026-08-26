@@ -20,12 +20,10 @@ export default function Hero() {
             CS Undergraduate, IIT Delhi
           </p>
           <h1
-            className="mt-3 font-display text-[42px] font-800 leading-[0.95] text-ink sm:text-[64px]"
+            className="mt-3 font-display text-[34px] font-800 leading-[0.95] text-ink sm:text-[56px]"
             style={{ transform: "rotate(-0.6deg)" }}
           >
-            Shivanshu <span className="text-terracotta">&ldquo;Zero&rdquo;</span>
-            <br />
-            Aryan
+            Shivanshu Aryan
           </h1>
           <p className="mt-5 max-w-[480px] font-body text-[16px] font-500 leading-relaxed text-muted sm:text-[17px]">
             I build things across robotics, game theory, systems, and
@@ -61,18 +59,15 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* portrait — floats, glows, doodled corners */}
-        <div
-          className="relative w-[250px] shrink-0 animate-zfloat sm:w-[280px]"
-          aria-hidden="false"
-        >
+        {/* portrait — glows, doodled corners, no motion */}
+        <div className="relative w-[250px] shrink-0 sm:w-[280px]" aria-hidden="false">
           <div className="absolute -inset-x-10 -inset-y-8 rounded-full bg-terracotta opacity-30 blur-3xl" />
           <div className="relative overflow-hidden rounded-[18px] shadow-[0_18px_36px_rgba(185,130,106,.28)]">
             <Image
-              src="/portrait/zero-portrait.png"
-              alt="Illustrated portrait of Shivanshu &lsquo;Zero&rsquo; Aryan"
-              width={339}
-              height={416}
+              src="/portrait/zero-portrait-photo.jpg"
+              alt="Portrait of Shivanshu &lsquo;Zero&rsquo; Aryan"
+              width={700}
+              height={859}
               priority
               className="block h-auto w-full"
             />

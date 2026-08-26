@@ -22,6 +22,9 @@ export type Project = {
   oneLiner: string;
   tags: string[];
   threeD?: ThreeDKind;
+  video?: string;
+  algorithmVideo?: string;
+  problemStatement?: string[];
   links: ProjectLink[];
   sections?: CaseStudySections;
   summary?: string[];
@@ -55,6 +58,7 @@ export const projects: Project[] = [
     oneLiner:
       "Proving when splitting a state into fragments manipulates Jefferson's-method seat allocation, and how much it can win.",
     tags: ["Game Theory", "Theory", "Prof. Rohit Vaish"],
+    video: "/media/apportionment-split.mp4",
     links: [{ label: "GitHub", href: GITHUB }],
     sections: apportionmentSections,
   },
@@ -77,6 +81,10 @@ export const projects: Project[] = [
       "A RealSense-driven perception pipeline that told real scrolls from decoys at competition speed, pushing accuracy from 51.7% to 98.0%.",
     tags: ["Computer Vision", "Robotics", "DD Robocon"],
     threeD: "kfs-pointcloud",
+    problemStatement: [
+      "ABU Robocon 2026's game block (KFS) is either real, one of 15 Oracle-Bone-script glyphs stamped on all five marked faces, or a visually similar fake, a seal-script look-alike. A robot's camera has to tell them apart, and read which of the 15 signs it is, live, on a laptop CPU or a Jetson. Only a few hundred real labelled photos existed to learn from: nowhere near enough to train a deep model from scratch.",
+    ],
+    algorithmVideo: "/media/kfs-algorithm.mp4",
     links: [{ label: "GitHub", href: GITHUB }],
     sections: kfsSections,
   },
