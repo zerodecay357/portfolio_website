@@ -1,35 +1,41 @@
+import Image from "next/image";
 import Pill from "@/components/Pill";
+import { SquiggleDoodle, SparkleDoodle } from "@/components/Doodles";
 
 const TAGS = ["Robotics & RL", "Game Theory", "Systems", "Quant"];
-
-const SPEC_ROWS = [
-  { label: "Location", value: "New Delhi, IN — 28.54°N 77.19°E" },
-  { label: "Institution", value: "IIT Delhi, CS — '24–'28" },
-  { label: "Focus", value: "Robotics · Theory · Systems · Quant" },
-];
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-dotgrid px-5 pb-20 pt-16 sm:px-10 sm:pt-20">
-      <div className="relative mx-auto flex max-w-[1180px] flex-col items-start gap-12 sm:flex-row sm:justify-between sm:gap-14">
-        <div className="max-w-[600px]">
-          <p className="font-mono text-[11.5px] font-500 uppercase tracking-[0.15em] text-accent">
-            CS Undergraduate — IIT Delhi
+      {/* scattered doodles — kept sparse per the "restraint" principle */}
+      <SquiggleDoodle className="pointer-events-none absolute left-4 top-10 hidden -rotate-3 sm:block" />
+      <SparkleDoodle
+        className="pointer-events-none absolute right-10 top-24 hidden rotate-12 sm:block"
+        fill="var(--sage)"
+      />
+
+      <div className="relative mx-auto flex max-w-[1180px] flex-col-reverse items-center gap-14 sm:flex-row sm:items-center sm:justify-between">
+        <div className="max-w-[620px]">
+          <p className="font-heading text-[13px] font-700 uppercase tracking-[3px] text-terracotta">
+            CS Undergraduate, IIT Delhi
           </p>
-          <h1 className="mt-4 font-display text-[44px] font-700 leading-[1.02] text-ink sm:text-[68px]">
-            Shivanshu <span className="text-accent">&ldquo;Zero&rdquo;</span>
+          <h1
+            className="mt-3 font-display text-[42px] font-800 leading-[0.95] text-ink sm:text-[64px]"
+            style={{ transform: "rotate(-0.6deg)" }}
+          >
+            Shivanshu <span className="text-terracotta">&ldquo;Zero&rdquo;</span>
             <br />
             Aryan
           </h1>
-          <p className="mt-5 max-w-[480px] font-body text-[17px] leading-relaxed text-muted sm:text-[18px]">
+          <p className="mt-5 max-w-[480px] font-body text-[16px] font-500 leading-relaxed text-muted sm:text-[17px]">
             I build things across robotics, game theory, systems, and
-            quantitative finance — an RL-trained hexapod, a proof about
+            quantitative finance: an RL-trained hexapod, a proof about
             manipulating apportionment methods, an out-of-order CPU
             simulator, and a strategy that traded live. Range is the point,
             not a lack of focus.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-2">
+          <div className="mt-6 flex flex-wrap gap-2">
             {TAGS.map((t) => (
               <Pill key={t} tone="terracotta">
                 {t}
@@ -37,42 +43,48 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="#work"
-              className="rounded-[3px] bg-ink px-6 py-3 font-mono text-[12px] font-500 uppercase tracking-[0.08em] text-paper transition-colors hover:bg-accent"
+              className="rounded-md bg-ink px-5 py-3 font-heading text-[13px] font-600 tracking-wide text-white transition-colors hover:bg-terracotta"
             >
-              View featured work
+              VIEW FEATURED WORK
             </a>
             <a
               href="/cv/Shivanshu_Aryan_CV.pdf"
               target="_blank"
               rel="noopener"
-              className="rounded-[3px] border border-noir-border px-6 py-3 font-mono text-[12px] font-500 uppercase tracking-[0.08em] text-ink transition-colors hover:border-accent hover:text-accent"
+              className="rounded-md border-2 border-ink px-5 py-3 font-heading text-[13px] font-600 tracking-wide text-ink transition-colors hover:border-terracotta hover:text-terracotta"
             >
-              Download CV
+              DOWNLOAD CV
             </a>
           </div>
         </div>
 
-        {/* spec-sheet callout — the recurring "dimension label" motif,
-            standing in for a portrait */}
-        <div className="tick-corners w-full shrink-0 border border-noir-border bg-noir-surface/60 p-6 sm:w-[300px]">
-          <p className="font-mono text-[10px] font-500 uppercase tracking-[0.15em] text-schematic">
-            spec &middot; 001
-          </p>
-          <dl className="mt-4 space-y-4">
-            {SPEC_ROWS.map((row) => (
-              <div key={row.label}>
-                <dt className="font-mono text-[10px] font-500 uppercase tracking-[0.1em] text-muted-2">
-                  {row.label}
-                </dt>
-                <dd className="mt-1 font-mono text-[13px] text-cream">
-                  {row.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+        {/* portrait — floats, glows, doodled corners */}
+        <div
+          className="relative w-[250px] shrink-0 animate-zfloat sm:w-[280px]"
+          aria-hidden="false"
+        >
+          <div className="absolute -inset-x-10 -inset-y-8 rounded-full bg-terracotta opacity-30 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[18px] shadow-[0_18px_36px_rgba(185,130,106,.28)]">
+            <Image
+              src="/portrait/zero-portrait.png"
+              alt="Illustrated portrait of Shivanshu &lsquo;Zero&rsquo; Aryan"
+              width={339}
+              height={416}
+              priority
+              className="block h-auto w-full"
+            />
+          </div>
+          <div
+            className="absolute -left-14 top-8 font-display text-[15px] font-700 text-muted"
+            style={{ transform: "rotate(-10deg)" }}
+          >
+            me &#8600;
+          </div>
+          <SparkleDoodle className="absolute -right-3 -top-3 h-9 w-9 rotate-6" />
+          <SquiggleDoodle className="absolute -bottom-6 -right-8 h-10 w-28 rotate-6 opacity-70" />
         </div>
       </div>
     </section>

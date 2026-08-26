@@ -2,38 +2,44 @@ import Link from "next/link";
 
 const LINKS = [
   { href: "/#work", label: "Work" },
-  { href: "/#builds", label: "Builds" },
-  { href: "/#cv", label: "Academics" },
+  { href: "/#builds", label: "More Builds" },
+  { href: "/#cv", label: "CV" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
 ];
 
 export default function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-noir-border bg-paper/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 px-5 py-3.5 sm:px-10">
-        <Link href="/" className="font-heading text-lg font-700 text-ink">
-          Zero<span className="text-accent">.</span>
+    <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-paper/90 backdrop-blur supports-[backdrop-filter]:bg-paper/75">
+      <div className="h-[3px] w-full bg-gradient-to-b from-terracotta to-blush" />
+      <nav className="mx-auto flex max-w-[1180px] items-center justify-between px-5 py-3 sm:px-10">
+        <Link
+          href="/"
+          className="font-heading text-sm font-800 tracking-wide text-ink"
+        >
+          Shivanshu&nbsp;<span className="text-terracotta">Zero</span>
         </Link>
-        <nav className="hidden items-center gap-7 sm:flex">
+        <ul className="hidden items-center gap-6 sm:flex">
           {LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="font-mono text-[11.5px] font-500 uppercase tracking-[0.08em] text-dim transition-colors hover:text-accent"
-            >
-              {l.label}
-            </Link>
+            <li key={l.href}>
+              <a
+                href={l.href}
+                className="font-heading text-[13px] font-600 uppercase tracking-wide text-muted transition-colors hover:text-terracotta"
+              >
+                {l.label}
+              </a>
+            </li>
           ))}
-        </nav>
+        </ul>
         <a
           href="/cv/Shivanshu_Aryan_CV.pdf"
-          download
-          className="rounded-[3px] border border-noir-border px-4 py-2 font-mono text-[11px] font-500 uppercase tracking-[0.08em] text-ink transition-colors hover:border-accent hover:text-accent"
+          target="_blank"
+          rel="noopener"
+          className="font-heading text-[11px] font-600 tracking-wide text-white bg-ink rounded-md px-3 py-2 hover:bg-terracotta transition-colors"
         >
-          Resume
+          RESUME
         </a>
-      </div>
+      </nav>
     </header>
   );
 }

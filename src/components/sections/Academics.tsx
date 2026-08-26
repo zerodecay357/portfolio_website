@@ -1,7 +1,7 @@
 const achievements = [
-  "NSEA & NSEC — national rank among top scorers",
-  "Tech General Championship — 1st place, Robotics event",
-  "ABU Robocon — national qualifier, DD Robocon 2026",
+  "NSEA & NSEC: national rank among top scorers",
+  "Tech General Championship: 1st place, Robotics event",
+  "ABU Robocon: national qualifier, DD Robocon 2026",
 ];
 
 const mentors = [

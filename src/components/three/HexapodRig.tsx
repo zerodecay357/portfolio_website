@@ -1,78 +1,56 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const ACCENT = "#B9826A";
-const LEG_ANGLES = [-50, -100, -150, 50, 100, 150]; // degrees around body, per leg mount
-
-function Leg({ angle, phase }: { angle: number; phase: number }) {
-  const coxaRef = useRef<THREE.Group>(null);
-  const femurRef = useRef<THREE.Group>(null);
-  const tibiaRef = useRef<THREE.Group>(null);
-
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime() * 2 + phase;
-    const lift = Math.max(0, Math.sin(t));
-    if (coxaRef.current) coxaRef.current.rotation.z = Math.sin(t) * 0.12;
-    if (femurRef.current) femurRef.current.rotation.x = -0.3 - lift * 0.5;
-    if (tibiaRef.current) tibiaRef.current.rotation.x = 0.5 + lift * 0.6;
-  });
-
-  const rad = (angle * Math.PI) / 180;
-  return (
-    <group
-      position={[Math.cos(rad) * 0.62, 0.05, Math.sin(rad) * 0.62]}
-      rotation={[0, -rad, 0]}
-    >
-      <group ref={coxaRef}>
-        <mesh position={[0.18, 0, 0]}>
-          <boxGeometry args={[0.36, 0.09, 0.09]} />
-          <meshStandardMaterial color="#3a352c" />
-        </mesh>
-        <group position={[0.36, 0, 0]} ref={femurRef}>
-          <mesh position={[0.24, 0, 0]}>
-            <boxGeometry args={[0.48, 0.08, 0.08]} />
-            <meshStandardMaterial color={ACCENT} />
-          </mesh>
-          <group position={[0.48, 0, 0]} ref={tibiaRef}>
-            <mesh position={[0, -0.32, 0]}>
-              <boxGeometry args={[0.07, 0.64, 0.07]} />
-              <meshStandardMaterial color="#3a352c" />
-            </mesh>
-            <mesh position={[0, -0.64, 0]}>
-              <sphereGeometry args={[0.05, 12, 12]} />
-              <meshStandardMaterial color="#111" />
-            </mesh>
-          </group>
-        </group>
-      </group>
-    </group>
-  );
-}
+const BODY = "#232019"; // large chassis parts — dark neutral
+const LEG = "#B9826A"; // legs / motors — terracotta accent
+const JOINT_A = "#8C9A7B"; // small fasteners — sage, for contrast
+const JOINT_B = "#CBB892"; // small fasteners, alternating — gold
 
 export default function HexapodRig() {
-  const legs = useMemo(
-    () => LEG_ANGLES.map((angle, i) => ({ angle, phase: (i % 2) * Math.PI })),
-    []
-  );
+  const { scene } = useGLTF("/models/hexapod.glb");
+  const group = useRef<THREE.Group>(null);
+
+  const colored = useMemo(() => scene.clone(true), [scene]);
+
+  useEffect(() => {
+    let i = 0;
+    colored.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.geometry.computeBoundingBox();
+        const box = child.geometry.boundingBox!;
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const volume = size.x * size.y * size.z;
+        let color = LEG;
+        if (volume > 0.00003) color = BODY;
+        else if (volume < 0.000002) color = i % 2 === 0 ? JOINT_A : JOINT_B;
+        child.material = new THREE.MeshStandardMaterial({
+          color,
+          metalness: 0.35,
+          roughness: 0.45,
+        });
+        i++;
+      }
+    });
+  }, [colored]);
+
+  useFrame(({ clock }) => {
+    if (group.current) {
+      group.current.position.y = 0.4 + Math.sin(clock.getElapsedTime() * 1.2) * 0.02;
+    }
+  });
 
   return (
-    <group position={[0, 0.4, 0]}>
-      {/* body */}
-      <mesh>
-        <cylinderGeometry args={[0.55, 0.55, 0.22, 6]} />
-        <meshStandardMaterial color="#232019" metalness={0.2} roughness={0.6} />
-      </mesh>
-      <mesh position={[0, 0.13, 0]}>
-        <cylinderGeometry args={[0.4, 0.5, 0.06, 6]} />
-        <meshStandardMaterial color={ACCENT} metalness={0.3} roughness={0.4} />
-      </mesh>
-      {legs.map((l, i) => (
-        <Leg key={i} angle={l.angle} phase={l.phase} />
-      ))}
-      <gridHelper args={[6, 24, "#322D26", "#232019"]} position={[0, -0.42, 0]} />
+    <group ref={group} position={[0, 0.4, 0]} scale={5.2}>
+      <primitive object={colored} />
+      <pointLight position={[0, 1.4, 0]} intensity={0.6} color="#B9826A" distance={3} />
+      <gridHelper args={[1.6, 20, "#8A8275", "#232019"]} position={[0, -0.31, 0]} />
     </group>
   );
 }
+
+useGLTF.preload("/models/hexapod.glb");

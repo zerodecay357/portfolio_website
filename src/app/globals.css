@@ -1,32 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  /* One unified neutral register, site-wide — cool graphite backdrop,
-     warm parchment text, a single muted clay accent. No light/dark split. */
-  --paper: #14161B;
-  --paper-dot: #5b647214;
-  --ink: #E8E3DA;
-  --muted: #97918A;
-  --muted-2: #726D66;
-  --terracotta: #B99777;
-  --sage: #97918A;
-  --gold: #B99777;
-  --blush: #B99777;
+  /* Light "scrapbook" register — Hero / About / CV */
+  --paper: #EDEAE3;
+  --paper-dot: #6e665b14;
+  --ink: #2D2A26;
+  --muted: #6E665B;
+  --muted-2: #8A8275;
+  --terracotta: #B9826A;
+  --sage: #8C9A7B;
+  --gold: #CBB892;
+  --blush: #FFC7DF;
 
-  --noir: #14161B;
-  --noir-surface: #1C1F25;
-  --noir-surface-2: #242830;
-  --noir-border: #2E333C;
-  --cream: #E8E3DA;
-  --dim: #97918A;
+  /* Dark "professional" register — project case studies / 3D */
+  --noir: #14120F;
+  --noir-surface: #1C1A17;
+  --noir-surface-2: #232019;
+  --noir-border: #322D26;
+  --cream: #F3EFE8;
+  --dim: #9A9082;
 
-  /* Single restrained accent, used only for interactive/emphasis moments */
-  --accent: #B99777;
-  --accent-soft: #B9977726;
-
-  /* Cool, non-interactive tint reserved for technical linework — grids,
-     dimension marks, coordinate callouts. Never used for interactive UI. */
-  --schematic: #5B6472;
+  /* Single restrained accent, carried across both registers */
+  --accent: #B9826A;
+  --accent-soft: #B9826A26;
 }
 
 @theme inline {
@@ -48,12 +44,10 @@
 
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
-  --color-schematic: var(--schematic);
 
-  --font-display: var(--font-grotesk), sans-serif;
-  --font-heading: var(--font-grotesk), sans-serif;
-  --font-body: var(--font-serif), serif;
-  --font-mono: var(--font-mono-plex), monospace;
+  --font-display: var(--font-baloo), cursive;
+  --font-heading: var(--font-poppins), sans-serif;
+  --font-body: var(--font-hanken), sans-serif;
 
   /* Numeric font-weight utilities (font-500/600/700/800) used throughout —
      Tailwind's default scale only ships named tokens. */
@@ -86,33 +80,6 @@ body {
 
 .animate-zfloat {
   animation: zfloat 6s ease-in-out infinite;
-}
-
-/* Corner tick marks — the recurring "dimension callout" signature motif,
-   borrowed from engineering-drawing datum marks rather than decoration. */
-.tick-corners {
-  position: relative;
-}
-.tick-corners::before,
-.tick-corners::after {
-  content: "";
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--schematic);
-  opacity: 0.7;
-}
-.tick-corners::before {
-  top: -1px;
-  left: -1px;
-  border-right: none;
-  border-bottom: none;
-}
-.tick-corners::after {
-  bottom: -1px;
-  right: -1px;
-  border-left: none;
-  border-top: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

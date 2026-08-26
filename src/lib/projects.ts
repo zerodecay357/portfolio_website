@@ -1,12 +1,10 @@
 export type ProjectTier = 1 | 2;
 
-export type ThreeDKind =
-  | "hexapod"
-  | "kfs-pointcloud"
-  | "lidar-map"
-  | "apportionment"
-  | "quant-surface"
-  | "riscv-pipeline";
+// 3D is reserved for projects that are genuinely spatial/hardware —
+// the hexapod, the LiDAR point cloud, the RGB-D capture. Dropped for
+// the more abstract projects (apportionment, quant, RISC-V pipeline),
+// where a forced 3D visual read as decoration rather than evidence.
+export type ThreeDKind = "hexapod" | "kfs-pointcloud" | "lidar-map";
 
 export type ProjectLink = { label: string; href: string };
 
@@ -57,14 +55,13 @@ export const projects: Project[] = [
     oneLiner:
       "Proving when splitting a state into fragments manipulates Jefferson's-method seat allocation, and how much it can win.",
     tags: ["Game Theory", "Theory", "Prof. Rohit Vaish"],
-    threeD: "apportionment",
     links: [{ label: "GitHub", href: GITHUB }],
     sections: apportionmentSections,
   },
   {
     slug: "hexabot-v2",
     tier: 1,
-    title: "Hexabot V2 — 18-DOF Hexapod, RL-Trained Gait",
+    title: "Hexabot V2: 18-DOF Hexapod, RL-Trained Gait",
     oneLiner:
       "An 18-servo hexapod that learns to walk: PPO over a 49-dimensional MDP, curriculum-trained and carried across the sim-to-real gap.",
     tags: ["Robotics", "Reinforcement Learning", "Robotics Club"],
@@ -75,7 +72,7 @@ export const projects: Project[] = [
   {
     slug: "kfs-synth",
     tier: 1,
-    title: "KFS Synth — Real/Fake Vision Pipeline for DD Robocon",
+    title: "KFS Synth: Real/Fake Vision Pipeline for DD Robocon",
     oneLiner:
       "A RealSense-driven perception pipeline that told real scrolls from decoys at competition speed, pushing accuracy from 51.7% to 98.0%.",
     tags: ["Computer Vision", "Robotics", "DD Robocon"],
@@ -86,11 +83,10 @@ export const projects: Project[] = [
   {
     slug: "qube-quant-strategy",
     tier: 1,
-    title: "Qube Research — Live-Traded Systematic Equity Strategy",
+    title: "QRT Academy: Systematic Equity Strategy",
     oneLiner:
-      "A beta-neutral, walk-forward LightGBM strategy that traded live for 10 days on $1.6M GMV and closed $21k in PnL.",
-    tags: ["Quant Finance", "ML", "Qube Research"],
-    threeD: "quant-surface",
+      "A dollar- and beta-neutral equity pipeline (linear blend, CVXPY optimizer, and a LightGBM walk-forward classifier, compared on one backtest engine), run live on Qube Research & Technologies' trading platform.",
+    tags: ["Quant Finance", "ML", "Qube Research & Technologies"],
     links: [{ label: "GitHub", href: GITHUB }],
     sections: qubeSections,
   },
@@ -99,9 +95,8 @@ export const projects: Project[] = [
     tier: 2,
     title: "Out-of-Order RISC-V Simulator",
     oneLiner:
-      "A cycle-level Tomasulo's-algorithm simulator — ROB, RAT, reservation stations, CDB broadcast, and a 2-bit branch predictor.",
+      "A cycle-level Tomasulo's-algorithm simulator with a ROB, RAT, reservation stations, CDB broadcast, and a 2-bit branch predictor.",
     tags: ["Systems", "Computer Architecture"],
-    threeD: "riscv-pipeline",
     links: [{ label: "GitHub", href: GITHUB }],
     summary: riscvSummary,
   },
@@ -129,7 +124,7 @@ export const projects: Project[] = [
   {
     slug: "taskboard",
     tier: 2,
-    title: "TaskBoard — Full-Stack Kanban Platform",
+    title: "TaskBoard: Full-Stack Kanban Platform",
     oneLiner:
       "A Kanban platform with server-enforced RBAC and workflow graphs across 40+ REST endpoints.",
     tags: ["Full-Stack", "Systems"],
@@ -142,13 +137,13 @@ export const moreBuilds: MoreBuild[] = [
   {
     title: "SocialNet Backend",
     oneLiner:
-      "C++ social-graph backend with zero STL containers in the core path — custom AVL trees for friend/post indices, BFS degrees-of-separation.",
+      "C++ social-graph backend with zero STL containers in the core path: custom AVL trees for friend/post indices, BFS for degrees-of-separation.",
     tags: ["C++", "Data Structures"],
   },
   {
     title: "Micro-Vector SVG Editor",
     oneLiner:
-      "A vector graphics editor backed by a hand-written recursive-descent SVG/XML parser — zero third-party parsing libraries.",
+      "A vector graphics editor backed by a hand-written recursive-descent SVG/XML parser, with zero third-party parsing libraries.",
     tags: ["C++", "Parsing"],
   },
   {

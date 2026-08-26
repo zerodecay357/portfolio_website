@@ -1,9 +1,9 @@
 const TONES = {
-  terracotta: "text-accent border-accent/35 bg-accent-soft",
-  sage: "text-dim border-noir-border bg-white/[0.02]",
-  gold: "text-accent border-accent/35 bg-accent-soft",
-  accent: "text-accent border-accent/35 bg-accent-soft",
-  neutral: "text-dim border-noir-border bg-white/[0.02]",
+  terracotta: "bg-terracotta/15 text-terracotta border-terracotta/30",
+  sage: "bg-sage/15 text-sage border-sage/35",
+  gold: "bg-gold/20 text-[#8a7645] border-gold/40",
+  accent: "bg-accent-soft text-accent border-accent/40",
+  neutral: "bg-white/5 text-dim border-noir-border",
 } as const;
 
 export default function Pill({
@@ -17,7 +17,7 @@ export default function Pill({
 }) {
   return (
     <span
-      className={`inline-flex items-center rounded-[3px] border px-2.5 py-1 font-mono text-[10.5px] font-500 uppercase tracking-[0.06em] ${TONES[tone]} ${className}`}
+      className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-wide font-heading ${TONES[tone]} ${className}`}
     >
       {children}
     </span>

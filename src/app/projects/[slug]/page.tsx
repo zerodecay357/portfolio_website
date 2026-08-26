@@ -18,7 +18,7 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!project) return {};
   return {
-    title: `${project.title} — Shivanshu Aryan`,
+    title: `${project.title} · Shivanshu Aryan`,
     description: project.oneLiner,
   };
 }
