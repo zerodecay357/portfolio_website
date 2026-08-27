@@ -24,6 +24,8 @@ export type Project = {
   threeD?: ThreeDKind;
   video?: string;
   algorithmVideo?: string;
+  image?: { src: string; alt: string; width: number; height: number };
+  gallery?: { src: string; caption: string; width: number; height: number }[];
   problemStatement?: string[];
   rulebook?: { label: string; href: string };
   links: ProjectLink[];
@@ -99,6 +101,32 @@ export const projects: Project[] = [
     oneLiner:
       "Packet-level forensics on real traffic: tracing paths hop by hop, hunting planted anomalies in raw captures, and attributing every stray byte to the app that sent it.",
     tags: ["Computer Networks", "Systems", "Measurement"],
+    image: {
+      src: "/media/col334/paths.png",
+      alt: "Traceroute diagram showing both teammates' paths out of IIT Delhi, every IP as its own tagged node, converging at a shared upstream hop",
+      width: 1742,
+      height: 1728,
+    },
+    gallery: [
+      {
+        src: "/media/col334/latency-vs-distance.png",
+        caption: "A3.1: RTT against great-circle distance, five targets from campus gateway to a server 12,000km away.",
+        width: 1360,
+        height: 825,
+      },
+      {
+        src: "/media/col334/queueing.png",
+        caption: "A3.3: every packet plotted, no smoothing. Queueing delay visibly widens the RTT spread in a busy hour versus a quiet one.",
+        width: 1331,
+        height: 801,
+      },
+      {
+        src: "/media/col334/wifi-survey.png",
+        caption: "A2.2: AP density and signal strength across three campus buildings, from a walking Wi-Fi survey.",
+        width: 1256,
+        height: 556,
+      },
+    ],
     links: [{ label: "GitHub", href: GITHUB }],
     sections: col334Sections,
   },

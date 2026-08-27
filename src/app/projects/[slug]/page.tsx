@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { projects, getProject } from "@/lib/projects";
@@ -80,6 +81,18 @@ export default async function ProjectPage({
           </div>
         )}
 
+        {project.image && (
+          <div className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-cream">
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              width={project.image.width}
+              height={project.image.height}
+              className="block h-auto w-full"
+            />
+          </div>
+        )}
+
         {project.video && (
           <div className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
             <video
@@ -146,6 +159,28 @@ export default async function ProjectPage({
             project.summary && <ProseBlock heading="Overview" paragraphs={project.summary} />
           )}
         </div>
+
+        {project.gallery && (
+          <div className="mt-14 grid gap-6 sm:grid-cols-2">
+            {project.gallery.map((g) => (
+              <figure
+                key={g.src}
+                className="overflow-hidden rounded-lg border border-noir-border bg-cream"
+              >
+                <Image
+                  src={g.src}
+                  alt={g.caption}
+                  width={g.width}
+                  height={g.height}
+                  className="block h-auto w-full"
+                />
+                <figcaption className="border-t border-noir-border bg-noir-surface px-4 py-3 font-body text-[13px] leading-relaxed text-dim">
+                  {g.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
 
         <div className="mt-16 flex flex-wrap gap-3 border-t border-noir-border pt-8">
           {project.links.map((l) => (
