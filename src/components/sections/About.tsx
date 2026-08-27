@@ -32,6 +32,17 @@ export default function About() {
           against; game theory gives it a proof; markets give it a P&amp;L. Different
           domains, same instinct.
         </p>
+        <p className="mt-5 font-body text-[16px] leading-relaxed text-muted sm:text-[17px]">
+          None of this is random. I want to build a deep-tech company
+          eventually, and deep tech is unforgiving about the part most
+          startups skip: whether the underlying system actually works before
+          any of the business around it matters. So I&rsquo;ve been deliberately
+          testing myself against different corners of computer science,
+          hardware, theory, systems, and markets, to find out where the hard
+          problems actually are and whether I can solve them, not just talk
+          about them. Every project here is that stress test running in
+          public.
+        </p>
       </Reveal>
     </section>
   );

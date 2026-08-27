@@ -41,8 +41,8 @@ export default function Hero() {
             I build things across robotics, game theory, systems, and
             quantitative finance: an RL-trained hexapod, a proof about
             manipulating apportionment methods, an out-of-order CPU
-            simulator, and a strategy that traded live. Range is the point,
-            not a lack of focus.
+            simulator, and a strategy that traded on a live book. Four
+            fields, one habit: build it, then prove it holds up.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
