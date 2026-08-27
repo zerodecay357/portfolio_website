@@ -60,14 +60,6 @@ export default function Hero() {
             >
               VIEW FEATURED WORK
             </a>
-            <a
-              href="/cv/Shivanshu_Aryan_CV.pdf"
-              target="_blank"
-              rel="noopener"
-              className="rounded-md border-2 border-ink px-5 py-3 font-heading text-[13px] font-600 tracking-wide text-ink transition-colors hover:border-terracotta hover:text-terracotta"
-            >
-              DOWNLOAD CV
-            </a>
           </div>
         </div>
 

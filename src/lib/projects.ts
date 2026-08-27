@@ -43,13 +43,13 @@ const GITHUB = "https://github.com/zerodecay357";
 import { sections as apportionmentSections } from "@/content/projects/apportionment-manipulation";
 import { sections as hexabotSections } from "@/content/projects/hexabot-v2";
 import { sections as kfsSections } from "@/content/projects/kfs-synth";
-import { sections as qubeSections } from "@/content/projects/qube-quant-strategy";
+import { sections as col334Sections } from "@/content/projects/col334-networks";
 
 // Tier 2 — shorter write-ups
 import { summary as riscvSummary } from "@/content/projects/riscv-simulator";
 import { summary as lidarSummary } from "@/content/projects/lidar-mapping";
 import { summary as leveldbSummary } from "@/content/projects/leveldb-range";
-import { summary as taskboardSummary } from "@/content/projects/taskboard";
+import { summary as qubeSummary } from "@/content/projects/qube-quant-strategy";
 
 export const projects: Project[] = [
   {
@@ -93,14 +93,14 @@ export const projects: Project[] = [
     sections: kfsSections,
   },
   {
-    slug: "qube-quant-strategy",
+    slug: "col334-networks",
     tier: 1,
-    title: "QRT Academy: Systematic Equity Strategy",
+    title: "COL334: Two Days, Two Devices",
     oneLiner:
-      "A dollar- and beta-neutral equity pipeline (linear blend, CVXPY optimizer, and a LightGBM walk-forward classifier, compared on one backtest engine), run live on Qube Research & Technologies' trading platform.",
-    tags: ["Quant Finance", "ML", "Qube Research & Technologies"],
+      "Packet-level forensics on real traffic: tracing paths hop by hop, hunting planted anomalies in raw captures, and attributing every stray byte to the app that sent it.",
+    tags: ["Computer Networks", "Systems", "Measurement"],
     links: [{ label: "GitHub", href: GITHUB }],
-    sections: qubeSections,
+    sections: col334Sections,
   },
   {
     slug: "riscv-simulator",
@@ -134,14 +134,14 @@ export const projects: Project[] = [
     summary: leveldbSummary,
   },
   {
-    slug: "taskboard",
+    slug: "qube-quant-strategy",
     tier: 2,
-    title: "TaskBoard: Full-Stack Kanban Platform",
+    title: "QRT Academy: Systematic Equity Strategy",
     oneLiner:
-      "A Kanban platform with server-enforced RBAC and workflow graphs across 40+ REST endpoints.",
-    tags: ["Full-Stack", "Systems"],
+      "A dollar- and beta-neutral equity pipeline (linear blend, CVXPY optimizer, and a LightGBM walk-forward classifier, compared on one backtest engine), run live on Qube Research & Technologies' trading platform.",
+    tags: ["Quant Finance", "ML", "Qube Research & Technologies"],
     links: [{ label: "GitHub", href: GITHUB }],
-    summary: taskboardSummary,
+    summary: qubeSummary,
   },
 ];
 
@@ -153,10 +153,10 @@ export const moreBuilds: MoreBuild[] = [
     tags: ["C++", "Data Structures"],
   },
   {
-    title: "Micro-Vector SVG Editor",
+    title: "TaskBoard",
     oneLiner:
-      "A vector graphics editor backed by a hand-written recursive-descent SVG/XML parser, with zero third-party parsing libraries.",
-    tags: ["C++", "Parsing"],
+      "A full-stack Kanban platform with server-enforced RBAC, data-driven workflow rules, and 46 REST endpoints backed by 59 tests.",
+    tags: ["Full-Stack", "Systems"],
   },
   {
     title: "VGA Racing Game on FPGA",

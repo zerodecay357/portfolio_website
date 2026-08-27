@@ -34,14 +34,6 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <a
-          href="/cv/Shivanshu_Aryan_CV.pdf"
-          target="_blank"
-          rel="noopener"
-          className="font-heading text-[11px] font-600 tracking-wide text-white bg-ink rounded-md px-3 py-2 hover:bg-terracotta transition-colors"
-        >
-          RESUME
-        </a>
       </nav>
     </header>
   );
