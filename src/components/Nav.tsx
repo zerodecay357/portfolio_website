@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const LINKS = [
   { href: "/#work", label: "Work" },
   { href: "/#builds", label: "More Builds" },
@@ -13,13 +11,7 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-paper/90 backdrop-blur supports-[backdrop-filter]:bg-paper/75">
       <div className="h-[3px] w-full bg-gradient-to-b from-terracotta to-blush" />
-      <nav className="mx-auto flex max-w-[1180px] items-center justify-between px-5 py-3 sm:px-10">
-        <Link
-          href="/"
-          className="font-heading text-sm font-800 tracking-wide text-ink"
-        >
-          Shivanshu&nbsp;<span className="text-terracotta">Zero</span>
-        </Link>
+      <nav className="mx-auto flex max-w-[1180px] items-center justify-center px-5 py-3 sm:px-10">
         <ul className="hidden items-center gap-6 sm:flex">
           {LINKS.map((l) => (
             <li key={l.href}>
