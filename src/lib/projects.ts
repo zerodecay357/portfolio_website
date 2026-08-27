@@ -4,7 +4,7 @@ export type ProjectTier = 1 | 2;
 // the hexapod, the LiDAR point cloud, the RGB-D capture. Dropped for
 // the more abstract projects (apportionment, quant, RISC-V pipeline),
 // where a forced 3D visual read as decoration rather than evidence.
-export type ThreeDKind = "hexapod" | "kfs-pointcloud" | "lidar-map";
+export type ThreeDKind = "hexapod" | "lidar-map";
 
 export type ProjectLink = { label: string; href: string };
 
@@ -25,6 +25,7 @@ export type Project = {
   video?: string;
   algorithmVideo?: string;
   problemStatement?: string[];
+  rulebook?: { label: string; href: string };
   links: ProjectLink[];
   sections?: CaseStudySections;
   summary?: string[];
@@ -80,11 +81,14 @@ export const projects: Project[] = [
     oneLiner:
       "A RealSense-driven perception pipeline that told real scrolls from decoys at competition speed, pushing accuracy from 51.7% to 98.0%.",
     tags: ["Computer Vision", "Robotics", "DD Robocon"],
-    threeD: "kfs-pointcloud",
     problemStatement: [
       "ABU Robocon 2026's game block (KFS) is either real, one of 15 Oracle-Bone-script glyphs stamped on all five marked faces, or a visually similar fake, a seal-script look-alike. A robot's camera has to tell them apart, and read which of the 15 signs it is, live, on a laptop CPU or a Jetson. Only a few hundred real labelled photos existed to learn from: nowhere near enough to train a deep model from scratch.",
     ],
     algorithmVideo: "/media/kfs-algorithm.mp4",
+    rulebook: {
+      label: "ABU Robocon 2026 Rulebook (PDF)",
+      href: "/docs/ABU-Robocon-2026-Rulebook.pdf",
+    },
     links: [{ label: "GitHub", href: GITHUB }],
     sections: kfsSections,
   },

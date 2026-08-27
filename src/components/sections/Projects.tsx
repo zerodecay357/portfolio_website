@@ -11,7 +11,7 @@ export default function Projects() {
           Featured Work
         </p>
         <h2 className="mt-3 font-heading text-3xl font-800 text-cream sm:text-4xl">
-          Four projects, four registers
+          Latest Work
         </h2>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -35,7 +35,7 @@ export default function Projects() {
                   ))}
                 </div>
                 <span className="mt-6 inline-flex items-center gap-1.5 font-heading text-[12px] font-700 uppercase tracking-[1px] text-accent">
-                  Read case study
+                  Explore the build
                   <span className="transition-transform group-hover:translate-x-1">
                     &rarr;
                   </span>

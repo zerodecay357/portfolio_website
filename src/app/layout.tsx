@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Baloo_2, Poppins, Hanken_Grotesk } from "next/font/google";
+import { Baloo_2, Poppins, Inter } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -18,9 +18,9 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
-  weight: ["400", "500", "600", "700"],
+const inter = Inter({
+  variable: "--font-inter",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${baloo.variable} ${poppins.variable} ${hanken.variable} h-full antialiased`}
+      className={`${baloo.variable} ${poppins.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <Nav />

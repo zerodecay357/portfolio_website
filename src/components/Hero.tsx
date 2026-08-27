@@ -25,6 +25,18 @@ export default function Hero() {
           >
             Shivanshu Aryan
           </h1>
+
+          <a
+            href="https://www.peakxv.com/"
+            target="_blank"
+            rel="noopener"
+            className="mt-5 inline-flex items-center gap-3 rounded-r-md border-l-4 border-terracotta bg-terracotta/10 py-2.5 pl-4 pr-6 transition-colors hover:bg-terracotta/20"
+            style={{ transform: "rotate(-0.4deg)" }}
+          >
+            <span className="font-heading text-[15px] font-700 uppercase tracking-[0.5px] text-terracotta">
+              Incoming Intern &middot; Peak XV Partners
+            </span>
+          </a>
           <p className="mt-5 max-w-[480px] font-body text-[16px] font-500 leading-relaxed text-muted sm:text-[17px]">
             I build things across robotics, game theory, systems, and
             quantitative finance: an RL-trained hexapod, a proof about
@@ -33,9 +45,9 @@ export default function Hero() {
             not a lack of focus.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-7 flex flex-wrap gap-3">
             {TAGS.map((t) => (
-              <Pill key={t} tone="terracotta">
+              <Pill key={t} tone="terracotta" size="md">
                 {t}
               </Pill>
             ))}

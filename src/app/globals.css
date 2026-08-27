@@ -47,7 +47,7 @@
 
   --font-display: var(--font-baloo), cursive;
   --font-heading: var(--font-poppins), sans-serif;
-  --font-body: var(--font-hanken), sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, var(--font-inter), "Segoe UI", sans-serif;
 
   /* Numeric font-weight utilities (font-500/600/700/800) used throughout —
      Tailwind's default scale only ships named tokens. */

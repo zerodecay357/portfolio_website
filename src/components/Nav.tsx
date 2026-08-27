@@ -5,6 +5,7 @@ const LINKS = [
   { href: "/#builds", label: "More Builds" },
   { href: "/#cv", label: "CV" },
   { href: "/#about", label: "About" },
+  { href: "/blog", label: "Blog", newTab: true },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -24,6 +25,8 @@ export default function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
+                target={l.newTab ? "_blank" : undefined}
+                rel={l.newTab ? "noopener" : undefined}
                 className="font-heading text-[13px] font-600 uppercase tracking-wide text-muted transition-colors hover:text-terracotta"
               >
                 {l.label}

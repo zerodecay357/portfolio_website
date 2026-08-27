@@ -9,7 +9,7 @@ export default function Footer() {
           <h2 className="font-heading text-2xl font-800 uppercase tracking-wide text-cream">
             Let&rsquo;s talk
           </h2>
-          <p className="mt-3 max-w-md text-sm text-dim">
+          <p className="mt-3 max-w-md text-[17px] leading-relaxed text-dim">
             Open to research collaborations, internships, and anything that
             needs someone comfortable moving between hardware, theory, and
             production code.

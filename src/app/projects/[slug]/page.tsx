@@ -105,6 +105,16 @@ export default async function ProjectPage({
                 </p>
               ))}
             </div>
+            {project.rulebook && (
+              <a
+                href={project.rulebook.href}
+                target="_blank"
+                rel="noopener"
+                className="mt-5 inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2.5 font-heading text-[12px] font-700 uppercase tracking-[1px] text-noir transition-opacity hover:opacity-90"
+              >
+                {project.rulebook.label} &rarr;
+              </a>
+            )}
           </div>
         )}
 

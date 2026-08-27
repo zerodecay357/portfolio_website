@@ -6,18 +6,25 @@ const TONES = {
   neutral: "bg-white/5 text-dim border-noir-border",
 } as const;
 
+const SIZES = {
+  sm: "px-3 py-1 text-[11px]",
+  md: "px-4 py-1.5 text-[13px]",
+} as const;
+
 export default function Pill({
   children,
   tone = "neutral",
+  size = "sm",
   className = "",
 }: {
   children: React.ReactNode;
   tone?: keyof typeof TONES;
+  size?: keyof typeof SIZES;
   className?: string;
 }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-wide font-heading ${TONES[tone]} ${className}`}
+      className={`inline-flex items-center rounded-full border font-semibold uppercase tracking-wide font-heading ${SIZES[size]} ${TONES[tone]} ${className}`}
     >
       {children}
     </span>
