@@ -25,11 +25,27 @@ const inter = Inter({
   display: "swap",
 });
 
+const TITLE = "Shivanshu Aryan: Robotics, Game Theory, Systems, Quant";
+const DESCRIPTION =
+  "Portfolio of Shivanshu ‘Zero’ Aryan, CS undergraduate at IIT Delhi working across robotics & RL, game theory, systems programming, and quantitative finance.";
+
 export const metadata: Metadata = {
-  title: "Shivanshu Aryan: Robotics, Game Theory, Systems, Quant",
-  description:
-    "Portfolio of Shivanshu ‘Zero’ Aryan, CS undergraduate at IIT Delhi working across robotics & RL, game theory, systems programming, and quantitative finance.",
+  title: TITLE,
+  description: DESCRIPTION,
   metadataBase: new URL("https://shivanshuaryan.dev"),
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "https://shivanshuaryan.dev",
+    siteName: "Shivanshu Aryan",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export const viewport = {

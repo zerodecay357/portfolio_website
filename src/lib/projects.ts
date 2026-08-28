@@ -40,6 +40,7 @@ export type MoreBuild = {
 };
 
 const GITHUB = "https://github.com/zerodecay357";
+const REPO = (name: string) => `${GITHUB}/${name}`;
 
 // Tier 1 — full case studies
 import { sections as apportionmentSections } from "@/content/projects/apportionment-manipulation";
@@ -62,7 +63,12 @@ export const projects: Project[] = [
       "Proving when splitting a state into fragments manipulates Jefferson's-method seat allocation, and how much it can win.",
     tags: ["Game Theory", "Theory", "Prof. Rohit Vaish"],
     video: "/media/apportionment-split.mp4",
-    links: [{ label: "GitHub", href: GITHUB }],
+    links: [
+      {
+        label: "GitHub",
+        href: REPO("COL8184_stratergic_manip_under_hamilton."),
+      },
+    ],
     sections: apportionmentSections,
   },
   {
@@ -73,7 +79,7 @@ export const projects: Project[] = [
       "An 18-servo hexapod that learns to walk: PPO over a 49-dimensional MDP, curriculum-trained and carried across the sim-to-real gap.",
     tags: ["Robotics", "Reinforcement Learning", "Robotics Club"],
     threeD: "hexapod",
-    links: [{ label: "GitHub", href: GITHUB }],
+    links: [{ label: "GitHub", href: REPO("hexabot-rl") }],
     sections: hexabotSections,
   },
   {
@@ -91,7 +97,9 @@ export const projects: Project[] = [
       label: "ABU Robocon 2026 Rulebook (PDF)",
       href: "/docs/ABU-Robocon-2026-Rulebook.pdf",
     },
-    links: [{ label: "GitHub", href: GITHUB }],
+    links: [
+      { label: "GitHub", href: REPO("kfs_detection_pipeline_robocon26") },
+    ],
     sections: kfsSections,
   },
   {
@@ -127,7 +135,7 @@ export const projects: Project[] = [
         height: 556,
       },
     ],
-    links: [{ label: "GitHub", href: GITHUB }],
+    links: [{ label: "GitHub", href: REPO("map_your_network") }],
     sections: col334Sections,
   },
   {
@@ -137,7 +145,7 @@ export const projects: Project[] = [
     oneLiner:
       "A cycle-level Tomasulo's-algorithm simulator with a ROB, RAT, reservation stations, CDB broadcast, and a 2-bit branch predictor.",
     tags: ["Systems", "Computer Architecture"],
-    links: [{ label: "GitHub", href: GITHUB }],
+    links: [{ label: "GitHub", href: REPO("OutOfOrderProcessorDesign") }],
     summary: riscvSummary,
   },
   {
@@ -148,7 +156,8 @@ export const projects: Project[] = [
       "FAST-LIO2 scan-to-map odometry fused with a full Nav2 autonomy stack on a 23-dimensional manifold state.",
     tags: ["Robotics", "SLAM", "Robotics Club"],
     threeD: "lidar-map",
-    links: [{ label: "GitHub", href: GITHUB }],
+    // No public repo — Robotics Club project, code isn't on the personal account.
+    links: [],
     summary: lidarSummary,
   },
   {
@@ -158,7 +167,8 @@ export const projects: Project[] = [
     oneLiner:
       "Production-grade range-scan and MVCC-consistent range-delete APIs added to Google's LevelDB internals.",
     tags: ["Systems", "Databases"],
-    links: [{ label: "GitHub", href: GITHUB }],
+    // No public repo yet.
+    links: [],
     summary: leveldbSummary,
   },
   {
@@ -168,7 +178,8 @@ export const projects: Project[] = [
     oneLiner:
       "A dollar- and beta-neutral equity pipeline (linear blend, CVXPY optimizer, and a LightGBM walk-forward classifier, compared on one backtest engine), run live on Qube Research & Technologies' trading platform.",
     tags: ["Quant Finance", "ML", "Qube Research & Technologies"],
-    links: [{ label: "GitHub", href: GITHUB }],
+    // Ran on QRT's live proprietary platform — no public repo.
+    links: [],
     summary: qubeSummary,
   },
 ];

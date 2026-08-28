@@ -182,19 +182,21 @@ export default async function ProjectPage({
           </div>
         )}
 
-        <div className="mt-16 flex flex-wrap gap-3 border-t border-noir-border pt-8">
-          {project.links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noopener"
-              className="rounded-md border border-noir-border px-5 py-2.5 font-heading text-[12px] font-700 uppercase tracking-[1px] text-cream transition-colors hover:border-accent hover:text-accent"
-            >
-              {l.label}
-            </a>
-          ))}
-        </div>
+        {project.links.length > 0 && (
+          <div className="mt-16 flex flex-wrap gap-3 border-t border-noir-border pt-8">
+            {project.links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener"
+                className="rounded-md border border-noir-border px-5 py-2.5 font-heading text-[12px] font-700 uppercase tracking-[1px] text-cream transition-colors hover:border-accent hover:text-accent"
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </article>
   );
