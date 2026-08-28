@@ -86,8 +86,6 @@ export const projects: Project[] = [
       alt: "Hexabot V2 on the workbench: 18 SC-15 servos, numbered and wired, with the onboard LCD showing live diagnostics",
       width: 720,
       height: 1280,
-      caption:
-        "On the bench mid-build: numbered servos, live wiring, and the onboard LCD reading out diagnostics before a walk test.",
     },
     video: {
       src: "/media/hexabot/hexabot-real-walk.mp4",
