@@ -70,6 +70,7 @@ export const projects: Project[] = [
         label: "GitHub",
         href: REPO("COL8184_stratergic_manip_under_hamilton."),
       },
+      { label: "Endterm Report (PDF)", href: "/docs/COL8184-Endterm-Report.pdf" },
     ],
     sections: apportionmentSections,
   },
