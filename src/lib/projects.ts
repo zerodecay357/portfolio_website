@@ -82,12 +82,6 @@ export const projects: Project[] = [
       "An 18-servo hexapod that learns to walk: PPO over a 49-dimensional MDP, curriculum-trained and carried across the sim-to-real gap.",
     tags: ["Robotics", "Reinforcement Learning", "Robotics Club"],
     threeD: "hexapod",
-    image: {
-      src: "/media/hexabot/hexabot-build-photo.jpg",
-      alt: "Hexabot V2 on the workbench: 18 SC-15 servos, numbered and wired, with the onboard LCD showing live diagnostics",
-      width: 720,
-      height: 1280,
-    },
     video: {
       src: "/media/hexabot/hexabot-real-walk.mp4",
       caption: "The physical hexapod walking untethered on the gait library, LCD face and all.",
