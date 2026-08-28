@@ -82,7 +82,7 @@ export default async function ProjectPage({
         )}
 
         {project.image && (
-          <div className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-cream">
+          <figure className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-cream">
             <Image
               src={project.image.src}
               alt={project.image.alt}
@@ -90,20 +90,30 @@ export default async function ProjectPage({
               height={project.image.height}
               className="block h-auto w-full"
             />
-          </div>
+            {project.image.caption && (
+              <figcaption className="border-t border-noir-border bg-noir-surface px-4 py-3 font-body text-[13px] leading-relaxed text-dim">
+                {project.image.caption}
+              </figcaption>
+            )}
+          </figure>
         )}
 
         {project.video && (
-          <div className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
+          <figure className="mt-10 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
             <video
-              src={project.video}
+              src={project.video.src}
               autoPlay
               loop
               muted
               playsInline
               className="block h-auto w-full"
             />
-          </div>
+            {project.video.caption && (
+              <figcaption className="border-t border-noir-border px-4 py-3 font-body text-[13px] leading-relaxed text-dim">
+                {project.video.caption}
+              </figcaption>
+            )}
+          </figure>
         )}
 
         {project.problemStatement && (
@@ -132,16 +142,21 @@ export default async function ProjectPage({
         )}
 
         {project.algorithmVideo && (
-          <div className="mt-6 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
+          <figure className="mt-6 overflow-hidden rounded-lg border border-noir-border bg-noir-surface">
             <video
-              src={project.algorithmVideo}
+              src={project.algorithmVideo.src}
               autoPlay
               loop
               muted
               playsInline
               className="block h-auto w-full"
             />
-          </div>
+            {project.algorithmVideo.caption && (
+              <figcaption className="border-t border-noir-border px-4 py-3 font-body text-[13px] leading-relaxed text-dim">
+                {project.algorithmVideo.caption}
+              </figcaption>
+            )}
+          </figure>
         )}
 
         <div className="mt-14 space-y-12">

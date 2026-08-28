@@ -8,6 +8,8 @@ export type ThreeDKind = "hexapod" | "lidar-map";
 
 export type ProjectLink = { label: string; href: string };
 
+export type ProjectVideo = { src: string; caption?: string };
+
 export type CaseStudySections = {
   motivation: string[];
   approach: string[];
@@ -22,9 +24,9 @@ export type Project = {
   oneLiner: string;
   tags: string[];
   threeD?: ThreeDKind;
-  video?: string;
-  algorithmVideo?: string;
-  image?: { src: string; alt: string; width: number; height: number };
+  video?: ProjectVideo;
+  algorithmVideo?: ProjectVideo;
+  image?: { src: string; alt: string; width: number; height: number; caption?: string };
   gallery?: { src: string; caption: string; width: number; height: number }[];
   problemStatement?: string[];
   rulebook?: { label: string; href: string };
@@ -62,7 +64,7 @@ export const projects: Project[] = [
     oneLiner:
       "Proving when splitting a state into fragments manipulates Jefferson's-method seat allocation, and how much it can win.",
     tags: ["Game Theory", "Theory", "Prof. Rohit Vaish"],
-    video: "/media/apportionment-split.mp4",
+    video: { src: "/media/apportionment-split.mp4" },
     links: [
       {
         label: "GitHub",
@@ -79,6 +81,22 @@ export const projects: Project[] = [
       "An 18-servo hexapod that learns to walk: PPO over a 49-dimensional MDP, curriculum-trained and carried across the sim-to-real gap.",
     tags: ["Robotics", "Reinforcement Learning", "Robotics Club"],
     threeD: "hexapod",
+    image: {
+      src: "/media/hexabot/hexabot-build-photo.jpg",
+      alt: "Hexabot V2 on the workbench: 18 SC-15 servos, numbered and wired, with the onboard LCD showing live diagnostics",
+      width: 720,
+      height: 1280,
+      caption:
+        "On the bench mid-build: numbered servos, live wiring, and the onboard LCD reading out diagnostics before a walk test.",
+    },
+    video: {
+      src: "/media/hexabot/hexabot-real-walk.mp4",
+      caption: "The physical hexapod walking untethered on the gait library, LCD face and all.",
+    },
+    algorithmVideo: {
+      src: "/media/hexabot/hexabot-sim.mp4",
+      caption: "The PyBullet digital twin the gait library and RL policy were developed against before the sim-to-real transfer.",
+    },
     links: [{ label: "GitHub", href: REPO("hexabot-rl") }],
     sections: hexabotSections,
   },
@@ -92,7 +110,7 @@ export const projects: Project[] = [
     problemStatement: [
       "ABU Robocon 2026's game block (KFS) is either real, one of 15 Oracle-Bone-script glyphs stamped on all five marked faces, or a visually similar fake, a seal-script look-alike. A robot's camera has to tell them apart, and read which of the 15 signs it is, live, on a laptop CPU or a Jetson. Only a few hundred real labelled photos existed to learn from: nowhere near enough to train a deep model from scratch.",
     ],
-    algorithmVideo: "/media/kfs-algorithm.mp4",
+    algorithmVideo: { src: "/media/kfs-algorithm.mp4" },
     rulebook: {
       label: "ABU Robocon 2026 Rulebook (PDF)",
       href: "/docs/ABU-Robocon-2026-Rulebook.pdf",
