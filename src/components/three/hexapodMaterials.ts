@@ -3,24 +3,28 @@ import { mulberry32 } from "@/lib/rng";
 import { PALETTE } from "./palette";
 
 /*
-  PBR kit for the Hexabot V2 model, styled like an industrial robot cell:
-  servo-yellow painted links, gunmetal chassis, near-black servo housings,
-  bright machined hubs and fasteners, rubber feet, and thin coolant-cyan
-  emissive rings at the knees and chassis seam (the only glowing parts).
+  PBR kit for the Hexabot V2 model, styled like studio-lit lab hardware:
+  polished chrome links, transparent glass chassis plates and turret shell
+  with the dark internals (core, battery, deck, heatsink) visible through
+  them, glossy graphite servo housings, satin machined hubs and fasteners,
+  and a few small ember accents (knee rings, core band). The only emissive
+  parts are the cool-white sensor lenses and chassis seam, plus a faint
+  ember on the accent bits.
 */
 export type HexapodMaterials = {
-  paint: THREE.MeshPhysicalMaterial;
-  gunmetal: THREE.MeshStandardMaterial;
-  graphite: THREE.MeshStandardMaterial;
-  housing: THREE.MeshStandardMaterial;
-  steel: THREE.MeshStandardMaterial;
+  chrome: THREE.MeshPhysicalMaterial;
+  satin: THREE.MeshStandardMaterial;
+  glass: THREE.MeshPhysicalMaterial;
+  internal: THREE.MeshStandardMaterial;
+  housing: THREE.MeshPhysicalMaterial;
   rubber: THREE.MeshStandardMaterial;
+  ember: THREE.MeshStandardMaterial;
   glow: THREE.MeshStandardMaterial;
   lens: THREE.MeshStandardMaterial;
 };
 
 // Brushed-metal roughness streaks, generated once and shared. Gives the
-// metal reflections a machined grain instead of a plastic-smooth sheen.
+// satin metal a machined grain instead of a plastic-smooth sheen.
 let brushed: THREE.DataTexture | null = null;
 function brushedTexture() {
   if (brushed) return brushed;
@@ -45,55 +49,77 @@ function brushedTexture() {
   return brushed;
 }
 
+export const GLOW_BASE = 0.8;
+
 export function createHexapodMaterials(): HexapodMaterials {
   const grain = brushedTexture();
   return {
-    paint: new THREE.MeshPhysicalMaterial({
-      color: "#e7b70b",
-      metalness: 0.28,
-      roughness: 0.36,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.22,
-    }),
-    gunmetal: new THREE.MeshStandardMaterial({
-      color: "#4a535d",
-      metalness: 0.92,
-      roughness: 0.34,
-      roughnessMap: grain,
-      envMapIntensity: 1.2,
-    }),
-    graphite: new THREE.MeshStandardMaterial({
-      color: "#161b21",
-      metalness: 0.6,
-      roughness: 0.46,
-    }),
-    housing: new THREE.MeshStandardMaterial({
-      color: "#0c0f13",
-      metalness: 0.35,
-      roughness: 0.4,
-    }),
-    steel: new THREE.MeshStandardMaterial({
-      color: "#aab3bb",
+    chrome: new THREE.MeshPhysicalMaterial({
+      color: "#eef1f4",
       metalness: 1,
-      roughness: 0.24,
+      roughness: 0.13,
+      clearcoat: 0.7,
+      clearcoatRoughness: 0.06,
+      envMapIntensity: 1.35,
+    }),
+    satin: new THREE.MeshStandardMaterial({
+      color: "#c2c8ce",
+      metalness: 1,
+      roughness: 0.3,
       roughnessMap: grain,
+      envMapIntensity: 1.1,
+    }),
+    // Physical transmission (one shared transmission pass per frame) instead
+    // of drei's MeshTransmissionMaterial, which renders a buffer per material.
+    glass: new THREE.MeshPhysicalMaterial({
+      color: "#ffffff",
+      metalness: 0,
+      roughness: 0.05,
+      transmission: 1,
+      thickness: 0.03,
+      ior: 1.5,
+      attenuationColor: new THREE.Color("#cfe0ea"),
+      attenuationDistance: 0.35,
+      specularIntensity: 1,
+      clearcoat: 1,
+      clearcoatRoughness: 0.04,
+      envMapIntensity: 1.4,
+    }),
+    internal: new THREE.MeshStandardMaterial({
+      color: "#15191e",
+      metalness: 0.55,
+      roughness: 0.42,
+    }),
+    housing: new THREE.MeshPhysicalMaterial({
+      color: "#3a414a",
+      metalness: 0.7,
+      roughness: 0.3,
+      clearcoat: 0.6,
+      clearcoatRoughness: 0.18,
     }),
     rubber: new THREE.MeshStandardMaterial({
       color: "#07080a",
       metalness: 0,
       roughness: 0.94,
     }),
+    ember: new THREE.MeshStandardMaterial({
+      color: PALETTE.ember,
+      metalness: 0.15,
+      roughness: 0.35,
+      emissive: "#ff5a1a",
+      emissiveIntensity: 0.3,
+    }),
     glow: new THREE.MeshStandardMaterial({
-      color: "#06171a",
-      emissive: PALETTE.coolant,
-      emissiveIntensity: 2.4,
+      color: "#0c0f12",
+      emissive: PALETTE.light,
+      emissiveIntensity: GLOW_BASE,
       toneMapped: false,
     }),
     lens: new THREE.MeshStandardMaterial({
-      color: "#031014",
-      emissive: PALETTE.coolant,
-      emissiveIntensity: 4,
-      roughness: 0.1,
+      color: "#05070a",
+      emissive: PALETTE.light,
+      emissiveIntensity: 1.6,
+      roughness: 0.08,
       toneMapped: false,
     }),
   };
@@ -103,24 +129,22 @@ export function disposeHexapodMaterials(m: HexapodMaterials) {
   Object.values(m).forEach((mat) => mat.dispose());
 }
 
-/** Picks a material slot from the GLB node name (see report for the node map). */
+/** Picks a material slot from the GLB node name. */
 export function slotFor(name: string): keyof HexapodMaterials {
-  if (name.includes("glow_ring") || name.includes("accent_band")) return "glow";
   if (name.includes("lens")) return "lens";
-  if (/_(coxa|femur|tibia)$/.test(name)) return "paint";
-  if (name.includes("servo_case") || name.includes("ankle_joint") || name === "lidar_drum")
-    return "housing";
-  if (name.includes("servo_rim") || name.includes("femur_rib") || name.includes("tibia_guard"))
-    return "graphite";
-  if (name.includes("servo_hub") || name.includes("bolt_boss") || name.includes("heatsink_fin"))
-    return "steel";
-  if (name.includes("foot_pad") || name.includes("foot_grip")) return "rubber";
+  if (name === "chassis_glow_ring") return "glow";
+  if (name.includes("knee_glow_ring") || name.includes("accent_band")) return "ember";
+  if (name === "chassis_top_plate" || name === "chassis_bottom_plate" || name === "sensor_head")
+    return "glass";
+  if (name === "chassis_core" || name === "deck_riser" || name === "battery_pack") return "internal";
+  if (/_(coxa|femur|tibia)$/.test(name)) return "chrome";
   if (
-    name === "chassis_core" ||
-    name === "deck_riser" ||
-    name === "battery_pack" ||
-    name === "sensor_head"
+    name.includes("servo_case") ||
+    name.includes("ankle_joint") ||
+    name.includes("tibia_guard") ||
+    name === "lidar_drum"
   )
-    return "graphite";
-  return "gunmetal";
+    return "housing";
+  if (name.includes("foot_pad") || name.includes("foot_grip")) return "rubber";
+  return "satin";
 }

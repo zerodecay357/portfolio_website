@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { ArrowUpRight } from "@phosphor-icons/react/ssr";
 import Button from "@/components/ui/Button";
-import Reveal from "@/components/Reveal";
+import Headline from "@/components/ui/Headline";
+import Label from "@/components/ui/Label";
 import { Z } from "@/lib/z";
 
 const achievements = [
@@ -18,7 +19,7 @@ const mentors = [
   },
 ];
 
-// "Event: detail" -> title + sentence-cased detail, so each plate reads like a log entry.
+// "Event: detail" -> title + sentence-cased detail.
 function splitAchievement(a: string) {
   const i = a.indexOf(":");
   if (i === -1) return { title: a, detail: "" };
@@ -29,26 +30,24 @@ function splitAchievement(a: string) {
   };
 }
 
-function AchievementPlate({ text, tall = false }: { text: string; tall?: boolean }) {
+function AchievementTile({ text, wide = false }: { text: string; wide?: boolean }) {
   const { title, detail } = splitAchievement(text);
   return (
-    <div className="plate h-full">
-      <div
-        className={`plate-inner flex flex-col justify-end p-6 sm:p-7 ${
-          tall ? "min-h-[220px] md:min-h-[360px]" : "min-h-[160px]"
+    <div
+      className={`ticks flex h-full flex-col justify-end border border-hairline bg-obsidian/55 p-6 backdrop-blur-sm sm:p-7 ${
+        wide ? "min-h-[200px] md:min-h-[240px]" : "min-h-[170px]"
+      }`}
+    >
+      <p
+        className={`font-display font-300 leading-[1.08] tracking-[-0.02em] text-chrome ${
+          wide ? "text-[30px] sm:text-[36px]" : "text-[24px] sm:text-[26px]"
         }`}
       >
-        <p
-          className={`font-display font-700 uppercase leading-[0.95] tracking-tight text-phosphor ${
-            tall ? "text-[40px] sm:text-[48px]" : "text-[30px] sm:text-[34px]"
-          }`}
-        >
-          {title}
-        </p>
-        {detail && (
-          <p className="mt-3 font-body text-[15px] leading-relaxed text-fog">{detail}</p>
-        )}
-      </div>
+        {title}
+      </p>
+      {detail && (
+        <p className="mt-2 font-body text-[15px] leading-relaxed text-steel">{detail}</p>
+      )}
     </div>
   );
 }
@@ -56,49 +55,34 @@ function AchievementPlate({ text, tall = false }: { text: string; tall?: boolean
 export default function Academics() {
   const [first, ...rest] = achievements;
   return (
-    <section id="cv" className="relative isolate overflow-hidden bg-void">
-      {/* Robot arm, heavily darkened, bleeding in from the right edge. */}
-      <div aria-hidden="true" className="absolute inset-y-0 right-0 -z-10 w-full md:w-[62%]">
+    <section id="cv" className="relative isolate overflow-hidden border-t border-hairline">
+      {/* Chrome gripper, graded, fading into obsidian from the right edge. */}
+      <div aria-hidden="true" className="absolute inset-y-0 right-0 -z-10 w-full md:w-[55%]">
         <Image
-          src="/media/stock/robot-arm.jpg"
+          src="/media/stock/chrome-gripper.jpg"
           alt=""
           width={1600}
           height={1067}
-          sizes="(min-width: 768px) 62vw, 100vw"
-          className="h-full w-full object-cover opacity-[0.18] grayscale"
+          sizes="(min-width: 768px) 55vw, 100vw"
+          className="h-full w-full object-cover"
+          style={{ filter: "grayscale(0.9) brightness(0.45) contrast(1.1)" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-void via-void/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-void" />
+        <div className="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/70 to-obsidian/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-obsidian via-transparent to-obsidian" />
       </div>
 
       <div
-        className="relative mx-auto max-w-[1320px] px-5 py-24 sm:px-8 lg:px-12 lg:py-32"
+        className="relative mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"
         style={{ zIndex: Z.raised }}
       >
-        <div className="grid gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-14 lg:gap-20">
-          {/* Readout panel */}
-          <div>
-            <p className="font-body text-[14px] text-servo">Record</p>
-            <h2 className="mt-4 font-display text-[44px] font-800 uppercase leading-[0.92] tracking-tight text-phosphor sm:text-[56px] lg:text-[68px]">
-              B.Tech, Computer Science &amp; Engineering
-            </h2>
-            <p className="mt-5 font-body text-[17px] text-phosphor">
-              Indian Institute of Technology Delhi
-            </p>
-            <p className="mt-1 font-mono text-[15px] text-fog">2024-2028</p>
-
-            <div className="mt-10 border-y border-conduit py-6">
-              <p className="font-body text-[14px] text-fog">CGPA</p>
-              <p className="mt-1 flex items-baseline gap-3 font-mono leading-none">
-                <span className="text-[72px] font-500 tracking-tight text-servo sm:text-[96px]">
-                  7.77
-                </span>
-                <span className="text-[24px] text-fog-2" aria-hidden="true">
-                  /10
-                </span>
-              </p>
-            </div>
-
+        <div className="grid gap-12 md:grid-cols-12 md:gap-10 lg:gap-16">
+          <div className="md:col-span-5">
+            <Label>Record</Label>
+            <Headline
+              lead="B.Tech, Computer Science & Engineering"
+              follow={<>IIT Delhi, <span className="whitespace-nowrap">2024-2028</span></>}
+              className="mt-5"
+            />
             <div className="mt-10">
               <Button href="/cv/Shivanshu_Aryan_CV.pdf" variant="primary">
                 Download CV
@@ -106,41 +90,42 @@ export default function Academics() {
             </div>
           </div>
 
-          {/* Achievements + mentor */}
-          <div className="flex flex-col gap-4">
-            <div className="grid gap-4 md:grid-cols-2 md:grid-rows-2">
-              <Reveal className="md:row-span-2">
-                <AchievementPlate text={first} tall />
-              </Reveal>
-              {rest.map((a, i) => (
-                <Reveal key={a} delay={0.1 * (i + 1)}>
-                  <AchievementPlate text={a} />
-                </Reveal>
+          <div className="flex flex-col gap-4 md:col-span-7">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="md:col-span-2">
+                <AchievementTile text={first} wide />
+              </div>
+              {rest.map((a) => (
+                <AchievementTile key={a} text={a} />
               ))}
             </div>
 
             {mentors.map((m) => (
-              <Reveal key={m.name} delay={0.3}>
-                <div className="plate">
-                  <div className="plate-inner flex flex-col gap-2 p-6 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:p-7">
-                    <div>
-                      <p className="font-body text-[14px] text-fog">Mentor</p>
-                      <a
-                        href={m.href}
-                        target="_blank"
-                        rel="noopener"
-                        className="mt-1 inline-flex items-center gap-1.5 font-display text-[30px] font-700 uppercase leading-none tracking-tight text-phosphor transition-colors hover:text-servo"
-                      >
-                        {m.name}
-                        <ArrowUpRight size={18} weight="bold" aria-hidden="true" />
-                      </a>
-                    </div>
-                    <p className="font-body text-[15px] text-fog">
-                      {m.note.charAt(0).toUpperCase() + m.note.slice(1)}
-                    </p>
-                  </div>
+              <div
+                key={m.name}
+                className="ticks flex flex-col gap-2 border border-hairline bg-obsidian/55 p-6 backdrop-blur-sm sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:p-7"
+              >
+                <div>
+                  <Label>Mentor</Label>
+                  <a
+                    href={m.href}
+                    target="_blank"
+                    rel="noopener"
+                    className="group mt-2 inline-flex items-center gap-2 font-display text-[24px] font-300 leading-none tracking-[-0.02em] text-chrome transition-colors hover:text-white"
+                  >
+                    {m.name}
+                    <ArrowUpRight
+                      size={16}
+                      weight="regular"
+                      aria-hidden="true"
+                      className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ember"
+                    />
+                  </a>
                 </div>
-              </Reveal>
+                <p className="font-body text-[15px] text-steel">
+                  {m.note.charAt(0).toUpperCase() + m.note.slice(1)}
+                </p>
+              </div>
             ))}
           </div>
         </div>

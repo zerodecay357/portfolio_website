@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
-import { Big_Shoulders, Geist, Geist_Mono } from "next/font/google";
+import { Hanken_Grotesk, Geist_Mono } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
 import { Z } from "@/lib/z";
 import "./globals.css";
 
-const bigShoulders = Big_Shoulders({
-  variable: "--font-big-shoulders",
-  subsets: ["latin"],
-  axes: ["opsz"],
-  display: "swap",
-});
-
-const geist = Geist({
-  variable: "--font-geist",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
   display: "swap",
 });
@@ -49,23 +42,24 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#080b10",
+  themeColor: "#05070a",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${bigShoulders.variable} ${geist.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${hanken.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-void text-phosphor">
+      <body className="relative flex min-h-full flex-col text-chrome">
+        <div aria-hidden="true" className="atmosphere pointer-events-none fixed inset-0 -z-10" />
         <ScrollProgress />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
         <div
           aria-hidden="true"
-          className="crt-overlay pointer-events-none fixed inset-0"
+          className="grain pointer-events-none fixed inset-0"
           style={{ zIndex: Z.overlay }}
         />
       </body>

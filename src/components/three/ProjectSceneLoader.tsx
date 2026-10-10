@@ -10,9 +10,10 @@ import type { ThreeDKind } from "@/lib/projects";
 const ProjectScene = dynamic(() => import("./ProjectScene"), {
   ssr: false,
   loading: () => (
-    <div aria-hidden="true" className="plate h-[440px] w-full">
-      <div className="plate-inner relative overflow-hidden bg-void">
-        <div className="bg-blueprint absolute inset-x-0 bottom-0 h-1/2 opacity-40 [mask-image:linear-gradient(to_top,black,transparent)]" />
+    <div aria-hidden="true" className="relative h-[440px] w-full border border-hairline bg-obsidian">
+      <div className="absolute inset-0 bg-[radial-gradient(40%_35%_at_50%_60%,rgb(200_215_230/0.06),transparent_70%)]" />
+      <div className="absolute inset-0">
+        <div className="ticks h-full w-full" />
       </div>
     </div>
   ),

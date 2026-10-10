@@ -15,13 +15,13 @@ const VIEW: Record<
   hexapod: {
     camera: [2.7, 1.7, 3],
     target: [0, 0.35, 0],
-    label: "Interactive 3D model of the Hexabot V2 hexapod on a scan floor. Drag to orbit.",
+    label: "Interactive 3D model of the Hexabot V2 hexapod, chrome legs and a glass chassis, on a lit studio platform. Drag to orbit.",
   },
   "lidar-map": {
     camera: [4.6, 4.4, 5.2],
     target: [0, 0.3, 0],
     label:
-      "Interactive 3D LiDAR point cloud of a mapped room, colored by height, with the robot's trajectory. Drag to orbit.",
+      "Interactive 3D LiDAR point cloud of a mapped room, shaded from graphite to white by height, with the robot's trajectory. Drag to orbit.",
   },
 };
 

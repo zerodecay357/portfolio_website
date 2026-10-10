@@ -2,14 +2,15 @@
 
 import { Sparkles } from "@react-three/drei";
 import HexapodModel from "./HexapodModel";
-import ScanFloor, { OVERLAY_LAYER } from "./ScanFloor";
-import ScanEffects from "./ScanEffects";
+import StudioStage, { OVERLAY_LAYER } from "./StudioStage";
+import LightCone from "./LightCone";
+import StudioGrade from "./StudioGrade";
 import { PALETTE } from "./palette";
 
 const SCALE = 3.2;
 
-// Case-study turntable: the same PBR hexapod and scan floor as the hero,
-// without the bay architecture so the orbit stays about the robot.
+// Case-study turntable: the same chrome and glass hexapod on the same lit
+// studio platform as the hero, framed for orbiting.
 export default function HexapodRig({
   animate = true,
   lowPower = false,
@@ -19,29 +20,23 @@ export default function HexapodRig({
 }) {
   return (
     <>
-      <fog attach="fog" args={[PALETTE.void, 6, 15]} />
+      <fog attach="fog" args={[PALETTE.obsidian, 7, 16]} />
       <group scale={SCALE}>
         <HexapodModel animate={animate} />
       </group>
-      <ScanFloor
-        reflector={!lowPower}
-        animate={animate}
-        lowPower={lowPower}
-        radius={3.6}
-        center={[0.086 * SCALE, 0, 0]}
-        sensorHeight={0.291 * SCALE}
-      />
+      <StudioStage size={4} reflector={!lowPower} animate={animate} lowPower={lowPower} />
+      <LightCone position={[0.2, 0, 0]} height={5.6} bottom={2.1} strength={0.06} />
       <Sparkles
-        count={lowPower ? 20 : 50}
-        scale={[6, 2.4, 6]}
-        position={[0, 1.3, 0]}
-        size={1.5}
-        speed={animate ? 0.2 : 0}
-        opacity={0.3}
-        color="#a9c4cc"
+        count={lowPower ? 10 : 24}
+        scale={[5, 2.6, 5]}
+        position={[0, 1.4, 0]}
+        size={1.2}
+        speed={animate ? 0.15 : 0}
+        opacity={0.18}
+        color={PALETTE.light}
         layers={OVERLAY_LAYER}
       />
-      <ScanEffects lowPower={lowPower} />
+      <StudioGrade lowPower={lowPower} />
     </>
   );
 }

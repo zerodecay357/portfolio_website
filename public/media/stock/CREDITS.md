@@ -12,3 +12,15 @@ All files were resized and center-cropped to 1600x1067 (3:2) JPEG. No other edit
 | neon-city.jpg | Empty wet city street at night under blue and magenta light, one car | Hiep Duong (@hiepdaiduong93) | https://unsplash.com/photos/black-car-on-road-during-night-time-mm6VFRGTqWk | Unsplash License |
 
 None of these licenses require attribution, but credit is kept here as good practice.
+
+## Added for the obsidian/chrome redesign
+
+chrome-gripper, chrome-macro, dark-rock and lab are 1600x1067 (3:2) JPEG; earth-night is 2400x1200 (2:1) JPEG. Crops and resizes only, no other edits.
+
+| File | Shows | Photographer | Source | License |
+| --- | --- | --- | --- | --- |
+| chrome-gripper.jpg | Black and brushed-aluminium collaborative robot arm with a parallel gripper on a black studio background | Pavel Danilyuk | https://www.pexels.com/photo/robot-on-a-black-background-8438865/ | Pexels License |
+| chrome-macro.jpg | Tight crop of a machined aluminium robot gripper (screws, linkages, cable) on black | Pavel Danilyuk | https://www.pexels.com/photo/close-up-photo-of-an-articulated-robot-8438863/ | Pexels License |
+| dark-rock.jpg | Dark, fractured grey rock wall in low side light | Clement M. (@clement_m) | https://unsplash.com/photos/a-close-up-of-a-black-rock-wall-SsMMCEwFMuc | Unsplash License |
+| lab.jpg | Automated lab robot gripper behind glass in cool blue light | Testalize.me (@testalizeme) | https://unsplash.com/photos/industrial-robotic-arm-in-blue-lit-factory-9xHsWmh3m_4 | Unsplash License |
+| earth-night.jpg | City lights under the curved Earth horizon and airglow, starfield above, photographed from the ISS (Expedition 45, image ISS045e176195, Kjell Lindgren) | NASA / JSC | https://images.nasa.gov/details/iss045e176195 | Public domain (NASA imagery) |

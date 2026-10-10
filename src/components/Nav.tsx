@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
+import Label from "@/components/ui/Label";
 import { Z } from "@/lib/z";
 
 const LINKS = [
@@ -15,19 +16,19 @@ const LINKS = [
   { href: "/#contact", label: "Contact" },
 ];
 
-const CV_HREF = "/cv/Shivanshu_Aryan_CV.pdf";
+const EMAIL = "mailto:cs1240237@iitd.ac.in";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
 
-  // Close on Escape, and whenever the viewport grows back to desktop width.
+  // Close on Escape, and whenever the viewport grows to the desktop layout.
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    const mql = window.matchMedia("(min-width: 768px)");
+    const mql = window.matchMedia("(min-width: 1024px)");
     const onResize = () => {
       if (mql.matches) setOpen(false);
     };
@@ -41,95 +42,91 @@ export default function Nav() {
 
   return (
     <header
-      className="sticky top-0 w-full border-b border-conduit bg-void/80 backdrop-blur-md"
+      className="sticky top-0 w-full border-b border-hairline bg-obsidian/60 backdrop-blur-md"
       style={{ zIndex: Z.nav }}
     >
       <nav
         aria-label="Primary"
-        className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-5 sm:px-8 lg:px-12"
+        className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12"
       >
-        <Link
-          href="/"
-          aria-label="Zero, home"
-          className="group flex items-center gap-2.5"
-        >
-          <span
-            aria-hidden="true"
-            className="block h-3 w-3 bg-servo transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-45"
-          />
-          <span className="font-display text-[26px] font-800 uppercase leading-none tracking-tight text-phosphor">
-            Zero
-          </span>
-        </Link>
-
-        <div className="hidden items-center gap-8 md:flex">
-          <ul className="flex items-center gap-6 lg:gap-7">
-            {LINKS.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className="group relative inline-block py-1 font-heading text-[14px] text-fog transition-colors duration-200 hover:text-phosphor"
-                >
-                  {l.label}
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-x-0 -bottom-0.5 h-[2px] origin-left scale-x-0 bg-servo transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Button href={CV_HREF} variant="primary" className="px-4! py-2!">
-            Download CV
-          </Button>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            aria-label="Zero, home"
+            className="font-display text-[22px] font-500 lowercase leading-none tracking-[-0.02em] text-chrome"
+          >
+            zero
+          </Link>
+          <span aria-hidden="true" className="hidden h-7 w-px bg-hairline-2 sm:block" />
+          <Label as="div" className="hidden text-[9.5px]! leading-[1.35]! tracking-[0.2em]! sm:block">
+            Robotics, theory
+            <br />
+            systems, markets
+          </Label>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-nav-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="chamfer-sm flex h-10 w-10 items-center justify-center bg-hull-2 text-phosphor transition-colors hover:text-servo md:hidden"
-        >
-          {open ? (
-            <X size={20} weight="bold" aria-hidden="true" />
-          ) : (
-            <List size={20} weight="bold" aria-hidden="true" />
-          )}
-        </button>
+        <ul className="hidden items-center gap-8 lg:flex">
+          {LINKS.map((l) => (
+            <li key={l.href}>
+              <Link
+                href={l.href}
+                className="font-body text-[14px] text-chrome/70 transition-colors duration-200 hover:text-chrome"
+              >
+                {l.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-3">
+          <Button href={EMAIL} variant="primary" target="_self" className="hidden px-4! py-2! sm:inline-flex">
+            Email me
+          </Button>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="glass flex h-10 w-10 items-center justify-center rounded-full text-chrome transition-colors hover:border-hairline-2 lg:hidden"
+          >
+            {open ? (
+              <X size={18} weight="regular" aria-hidden="true" />
+            ) : (
+              <List size={18} weight="regular" aria-hidden="true" />
+            )}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
         {open && (
           <motion.div
             id="mobile-nav-menu"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-x-0 top-full px-3 pt-2 md:hidden"
+            className="absolute inset-x-0 top-full px-3 pt-2 lg:hidden"
           >
-            <div className="plate">
-              <div className="plate-inner">
-                <ul className="flex flex-col px-3 py-3">
-                  {LINKS.map((l) => (
-                    <li key={l.href} className="border-b border-conduit last:border-b-0">
-                      <Link
-                        href={l.href}
-                        onClick={() => setOpen(false)}
-                        className="block px-3 py-3.5 font-display text-[24px] font-700 uppercase leading-none tracking-tight text-phosphor transition-colors hover:text-servo"
-                      >
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <div className="px-6 pb-6 pt-2">
-                  <Button href={CV_HREF} variant="primary" className="w-full">
-                    Download CV
-                  </Button>
-                </div>
+            <div className="glass bg-obsidian/85!">
+              <ul className="flex flex-col px-3 py-2">
+                {LINKS.map((l) => (
+                  <li key={l.href} className="border-b border-hairline last:border-b-0">
+                    <Link
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className="block px-3 py-4 font-display text-[22px] font-300 leading-none tracking-[-0.02em] text-chrome/80 transition-colors hover:text-chrome"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="px-6 pb-6 pt-2">
+                <Button href={EMAIL} variant="primary" target="_self" className="w-full">
+                  Email me
+                </Button>
               </div>
             </div>
           </motion.div>

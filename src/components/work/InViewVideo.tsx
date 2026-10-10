@@ -14,8 +14,10 @@ export default function InViewVideo({
   label,
   className = "",
   threshold = 0.35,
+  poster,
 }: {
   src: string;
+  poster?: string;
   label: string;
   className?: string;
   threshold?: number;
@@ -48,6 +50,9 @@ export default function InViewVideo({
     <video
       ref={ref}
       src={src}
+      // Posters live at /media/posters/<clip name>.jpg, taken from a frame
+      // mid-clip so tiles never sit on a black first frame.
+      poster={poster ?? `/media/posters/${src.split("/").pop()!.replace(/\.mp4$/, ".jpg")}`}
       aria-label={label}
       className={className}
       muted

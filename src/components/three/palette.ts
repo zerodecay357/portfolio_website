@@ -1,17 +1,18 @@
 // Scene-side palette. Mirrors the CSS tokens in globals.css so the 3D
-// reads as part of the same control room. Coolant lives only in here.
+// reads as part of the same chrome lab. Ember is a trace accent only.
 export const PALETTE = {
-  void: "#080b10",
-  hull: "#0f151c",
-  conduit: "#1d2833",
-  conduit2: "#2a3846",
-  fog: "#8796a5",
-  servo: "#f4d012",
-  coolant: "#3fd7e6",
-  deepBlue: "#1b2f8f",
+  obsidian: "#05070a",
+  graphite: "#0a0e13",
+  panel: "#0e1319",
+  hairline: "#1c232b",
+  hairline2: "#2a323c",
+  steel: "#9aa3ad",
+  chrome: "#f1f3f5",
+  light: "#eef3f8", // cool studio white
+  ember: "#ff6a2b",
 } as const;
 
-// One scan cycle drives the floor ring, the chassis glow pulse and the
-// sweep, so every light event in the bay happens on the same beat.
-export const SCAN_PERIOD = 3.2; // seconds per expanding ring pair
-export const SWEEP_SPEED = 1.15; // radians per second
+// One slow beat for the platform's hairline ring and the chassis glow,
+// so the only recurring light event in the studio happens rarely.
+export const RING_PERIOD = 8; // seconds between ring emissions
+export const SWEEP_SPEED = 1.15; // radians per second (LiDAR highlight)

@@ -7,7 +7,7 @@ import type { Line2 } from "three-stdlib";
 import * as THREE from "three";
 import { mulberry32 } from "@/lib/rng";
 import HexapodModel from "./HexapodModel";
-import ScanEffects from "./ScanEffects";
+import StudioGrade from "./StudioGrade";
 import { PALETTE, SWEEP_SPEED } from "./palette";
 
 /*
@@ -161,9 +161,9 @@ const cloudVertex = /* glsl */ `
     float behind = mod(uSweep - ang + TAU * 2.0, TAU);
     float hl = exp(-behind * 2.6) * uHighlight;
 
-    vColor = colormap(aHeight) * (0.7 + hl * 0.9) + vec3(0.35) * flash;
+    vColor = colormap(aHeight) * (0.75 + hl * 0.45) + vec3(0.12) * flash;
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = uSize * (1.0 + flash * 0.8) * (6.0 / -mv.z);
+    gl_PointSize = uSize * (1.0 + flash * 0.3) * (6.0 / -mv.z);
     gl_Position = projectionMatrix * mv;
   }
 `;
@@ -213,9 +213,10 @@ export default function LidarPointCloud({
       uHighlight: { value: animate ? 0 : 0.6 },
       uCenter: { value: new THREE.Vector2(...WAYPOINTS[total - 1]) },
       uSize: { value: 2.4 },
-      uLow: { value: new THREE.Color(PALETTE.deepBlue) },
-      uMid: { value: new THREE.Color(PALETTE.coolant) },
-      uHigh: { value: new THREE.Color(PALETTE.servo) },
+      // monochrome height ramp: deep graphite floor to cool white ceiling
+      uLow: { value: new THREE.Color("#262d36") },
+      uMid: { value: new THREE.Color("#7c8794") },
+      uHigh: { value: new THREE.Color(PALETTE.light) },
     }),
     [animate, total]
   );
@@ -265,13 +266,13 @@ export default function LidarPointCloud({
           />
         </points>
 
-        {/* planned path, then the traveled part drawn over it in servo */}
-        <Line points={pathPoints} color={PALETTE.conduit2} lineWidth={1.5} dashed dashSize={0.12} gapSize={0.08} />
-        <Line ref={traveled} points={pathPoints} color={PALETTE.servo} lineWidth={2.5} position-y={0.005} />
+        {/* planned path as a grey hairline, then the traveled part drawn over it in ember */}
+        <Line points={pathPoints} color="#4b5560" lineWidth={1.5} dashed dashSize={0.12} gapSize={0.08} />
+        <Line ref={traveled} points={pathPoints} color={PALETTE.ember} lineWidth={2.5} position-y={0.005} />
         {WAYPOINTS.map(([x, z]) => (
           <mesh key={`${x},${z}`} position={[x, 0.05, z]} rotation-y={Math.PI / 4}>
             <boxGeometry args={[0.09, 0.02, 0.09]} />
-            <meshBasicMaterial color={PALETTE.servo} toneMapped={false} />
+            <meshBasicMaterial color={PALETTE.chrome} toneMapped={false} />
           </mesh>
         ))}
 
@@ -281,7 +282,7 @@ export default function LidarPointCloud({
           </group>
         </group>
       </group>
-      <ScanEffects lowPower={lowPower} />
+      <StudioGrade lowPower={lowPower} />
     </>
   );
 }

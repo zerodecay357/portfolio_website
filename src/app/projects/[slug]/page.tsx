@@ -7,6 +7,8 @@ import { ArrowLeft } from "@phosphor-icons/react/ssr";
 import { projects, getProject } from "@/lib/projects";
 import Pill from "@/components/Pill";
 import Button from "@/components/ui/Button";
+import Label from "@/components/ui/Label";
+import InViewVideo from "@/components/work/InViewVideo";
 import ProjectSceneLoader from "@/components/three/ProjectSceneLoader";
 
 export function generateStaticParams() {
@@ -22,58 +24,61 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!project) return {};
   return {
-    title: `${project.title} · Shivanshu Aryan`,
+    title: `${project.title} | Shivanshu Aryan`,
     description: project.oneLiner,
   };
 }
 
-// Bordered chamfer frame for every figure on the page.
-function Frame({ children, caption }: { children: ReactNode; caption?: string }) {
+// Square hairline frame with corner ticks for every figure on the page.
+// `pad` puts bright diagrams on a dark panel so they read as figures, not glare.
+function Frame({
+  children,
+  caption,
+  pad = false,
+}: {
+  children: ReactNode;
+  caption?: string;
+  pad?: boolean;
+}) {
   return (
-    <figure className="plate">
-      <div className="plate-inner overflow-hidden">
-        {children}
-        {caption && (
-          <figcaption className="border-t border-conduit px-5 py-4 font-body text-[14px] leading-relaxed text-fog">
-            {caption}
-          </figcaption>
-        )}
-      </div>
+    <figure className="ticks border border-hairline bg-graphite">
+      <div className={pad ? "bg-panel p-4 sm:p-8" : "overflow-hidden"}>{children}</div>
+      {caption && (
+        <figcaption className="border-t border-hairline px-5 py-4 font-body text-[14px] leading-relaxed text-steel">
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 }
 
-function LoopVideo({ src, caption }: { src: string; caption?: string }) {
+function LoopVideo({ src, caption, label }: { src: string; caption?: string; label: string }) {
   return (
     <Frame caption={caption}>
-      <video
-        src={src}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        aria-label={caption}
-        className="block h-auto w-full bg-void"
-      />
+      <InViewVideo src={src} label={caption ?? label} className="block h-auto w-full bg-obsidian" />
     </Frame>
+  );
+}
+
+function Paragraphs({ items }: { items: string[] }) {
+  return (
+    <div className="max-w-[68ch] space-y-5">
+      {items.map((p, i) => (
+        <p key={i} className="font-body text-[16px] leading-relaxed text-chrome/85 sm:text-[17px]">
+          {p}
+        </p>
+      ))}
+    </div>
   );
 }
 
 function ProseBlock({ heading, paragraphs }: { heading: string; paragraphs: string[] }) {
   return (
-    <section className="grid gap-5 border-t border-conduit pt-10 md:grid-cols-[minmax(0,220px)_minmax(0,1fr)] md:gap-12">
-      <h2 className="font-display text-[32px] font-700 leading-none tracking-tight text-phosphor md:sticky md:top-24 md:self-start">
-        <span aria-hidden="true" className="mb-4 block h-[2px] w-8 bg-servo" />
-        {heading}
+    <section className="grid gap-5 border-t border-hairline pt-10 md:grid-cols-[minmax(0,200px)_minmax(0,1fr)] md:gap-12">
+      <h2 className="md:sticky md:top-24 md:self-start">
+        <Label as="span">{heading}</Label>
       </h2>
-      <div className="max-w-[68ch] space-y-5">
-        {paragraphs.map((p, i) => (
-          <p key={i} className="font-body text-[17px] leading-relaxed text-phosphor/85">
-            {p}
-          </p>
-        ))}
-      </div>
+      <Paragraphs items={paragraphs} />
     </section>
   );
 }
@@ -88,26 +93,27 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   return (
-    <article className="bg-void">
-      {/* Header plate over a fading blueprint grid */}
-      <header className="relative isolate overflow-hidden border-b border-conduit">
-        <div
-          aria-hidden="true"
-          className="bg-blueprint absolute inset-0 -z-10 opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
-        />
-        <div className="mx-auto max-w-[1320px] px-5 pb-14 pt-12 sm:px-8 lg:px-12 lg:pb-20 lg:pt-16">
+    <article className="relative isolate">
+      {/* Faint studio light at the top, plus a masked hairline grid */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[720px]">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_0%,rgb(160_180_205/0.12),transparent_70%)]" />
+        <div className="bg-grid absolute inset-0 opacity-50 [mask-image:radial-gradient(60%_80%_at_50%_0%,black,transparent)]" />
+      </div>
+
+      <header className="border-b border-hairline">
+        <div className="mx-auto max-w-[1400px] px-5 pb-14 pt-12 sm:px-8 lg:px-12 lg:pb-20 lg:pt-16">
           <Link
             href="/#work"
-            className="inline-flex items-center gap-2 font-body text-[14px] text-fog transition-colors hover:text-servo"
+            className="inline-flex items-center gap-2 font-body text-[14px] text-steel transition-colors hover:text-chrome"
           >
-            <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+            <ArrowLeft size={16} weight="regular" aria-hidden="true" />
             Back to projects
           </Link>
 
-          <h1 className="mt-10 max-w-[18ch] font-display text-[48px] font-800 uppercase leading-[0.92] tracking-tight text-phosphor sm:text-[68px] lg:text-[88px]">
+          <h1 className="mt-10 max-w-[22ch] font-display text-[clamp(2.25rem,4.6vw,4.25rem)] font-300 leading-[1.04] tracking-[-0.03em] text-chrome">
             {project.title}
           </h1>
-          <p className="mt-6 max-w-[62ch] font-body text-[18px] leading-relaxed text-fog sm:text-[20px]">
+          <p className="mt-6 max-w-[62ch] font-body text-[17px] leading-relaxed text-steel sm:text-[19px]">
             {project.oneLiner}
           </p>
 
@@ -121,55 +127,51 @@ export default async function ProjectPage({
         </div>
       </header>
 
-      <div className="mx-auto max-w-[1320px] px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+      <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-[1040px]">
           <div className="space-y-8">
             {project.threeD && (
-              <div className="plate">
-                <div className="plate-inner overflow-hidden">
-                  <ProjectSceneLoader kind={project.threeD} />
-                </div>
+              <div className="ticks overflow-hidden border border-hairline">
+                <ProjectSceneLoader kind={project.threeD} />
               </div>
             )}
 
             {project.image && (
-              <Frame caption={project.image.caption}>
+              <Frame caption={project.image.caption} pad>
                 <Image
                   src={project.image.src}
                   alt={project.image.alt}
                   width={project.image.width}
                   height={project.image.height}
-                  sizes="(min-width: 1100px) 1040px, 100vw"
+                  sizes="(min-width: 1100px) 980px, 100vw"
                   className="block h-auto w-full"
                 />
               </Frame>
             )}
 
             {project.video && (
-              <LoopVideo src={project.video.src} caption={project.video.caption} />
+              <LoopVideo
+                src={project.video.src}
+                caption={project.video.caption}
+                label={`${project.title}, demo clip`}
+              />
             )}
 
             {project.problemStatement && (
-              <div className="plate">
-                <div className="plate-inner p-6 sm:p-10">
-                  <h2 className="font-display text-[32px] font-700 leading-none tracking-tight text-phosphor">
-                    Problem statement
-                  </h2>
-                  <div className="mt-5 max-w-[68ch] space-y-4">
-                    {project.problemStatement.map((p, i) => (
-                      <p key={i} className="font-body text-[17px] leading-relaxed text-phosphor/85">
-                        {p}
-                      </p>
-                    ))}
-                  </div>
-                  {project.rulebook && (
-                    <div className="mt-8">
-                      <Button href={project.rulebook.href} variant="primary">
-                        {project.rulebook.label}
-                      </Button>
-                    </div>
-                  )}
+              <div className="ticks border border-hairline bg-graphite/70 p-6 sm:p-10">
+                <h2>
+                  <Label as="span">Problem statement</Label>
+                </h2>
+                <div className="mt-5">
+                  <Paragraphs items={project.problemStatement} />
                 </div>
+                {project.rulebook && (
+                  <div className="mt-8">
+                    <Button href={project.rulebook.href} variant="primary">
+                      {project.rulebook.label}
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
 
@@ -177,6 +179,7 @@ export default async function ProjectPage({
               <LoopVideo
                 src={project.algorithmVideo.src}
                 caption={project.algorithmVideo.caption}
+                label={`${project.title}, algorithm clip`}
               />
             )}
           </div>
@@ -201,7 +204,7 @@ export default async function ProjectPage({
                   key={g.src}
                   className={i === 0 && project.gallery!.length % 2 === 1 ? "md:col-span-2" : ""}
                 >
-                  <Frame caption={g.caption}>
+                  <Frame caption={g.caption} pad>
                     <Image
                       src={g.src}
                       alt={g.caption}
@@ -217,7 +220,7 @@ export default async function ProjectPage({
           )}
 
           {project.links.length > 0 && (
-            <div className="mt-20 flex flex-col gap-3 border-t border-conduit pt-10 sm:flex-row sm:flex-wrap">
+            <div className="mt-20 flex flex-col gap-3 border-t border-hairline pt-10 sm:flex-row sm:flex-wrap">
               {project.links.map((l) => (
                 <Button key={l.href} href={l.href} variant="ghost">
                   {l.label}

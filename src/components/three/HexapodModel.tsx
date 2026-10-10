@@ -7,10 +7,11 @@ import * as THREE from "three";
 import {
   createHexapodMaterials,
   disposeHexapodMaterials,
+  GLOW_BASE,
   slotFor,
   type HexapodMaterials,
 } from "./hexapodMaterials";
-import { SCAN_PERIOD } from "./palette";
+import { RING_PERIOD } from "./palette";
 
 const MODEL_URL = "/models/hexapod.glb";
 
@@ -92,13 +93,13 @@ function applyPose(rig: Rig, t: number) {
   }
   if (rig.pan) rig.pan.rotation.y = Math.sin(t * 0.45) * 0.42;
   if (rig.drum) rig.drum.rotation.y = t * 5;
-  // Chassis seam and knee rings flash on every scan ring emission.
-  const beat = (t % (SCAN_PERIOD / 2)) / (SCAN_PERIOD / 2);
-  rig.mats.glow.emissiveIntensity = 1.8 + 2.6 * Math.exp(-beat * 7);
+  // The chassis seam brightens softly as each platform ring is emitted.
+  const beat = (t % RING_PERIOD) / RING_PERIOD;
+  rig.mats.glow.emissiveIntensity = GLOW_BASE + 0.9 * Math.exp(-beat * 9);
 }
 
 /**
- * Hexabot V2 with the shared PBR kit. Animates an idle tripod gait, a
+ * Hexabot V2 with the shared chrome and glass kit. Animates an idle tripod gait, a
  * sensor-head pan and the LiDAR drum spin; with `animate` off it holds a
  * composed mid-stride still.
  */

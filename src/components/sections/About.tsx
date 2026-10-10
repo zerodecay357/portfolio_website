@@ -1,91 +1,44 @@
-"use client";
-
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
-import Reveal from "@/components/Reveal";
-
-const BRACKET = "absolute h-6 w-6 border-phosphor/70";
-
-// Portrait treated as a scan-bay capture: grayscale, servo duotone, scanlines,
-// HUD corner brackets, and a single sweep line when it first enters view.
-function ScanPortrait() {
-  const reduce = useReducedMotion();
-  return (
-    <figure className="relative">
-      <div className="relative isolate overflow-hidden chamfer">
-        <Image
-          src="/portrait/zero-portrait-photo.jpg"
-          alt="Portrait of Shivanshu Aryan"
-          width={700}
-          height={859}
-          sizes="(min-width: 768px) 40vw, 100vw"
-          className="block h-auto w-full"
-          style={{ filter: "grayscale(1) contrast(1.25) brightness(0.92)" }}
-        />
-        {/* Servo duotone */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-servo opacity-25 mix-blend-multiply"
-        />
-        {/* Shadow lift so the darks stay inky, not muddy */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent"
-        />
-        {/* Scanlines */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(to bottom, rgb(8 11 16 / 0.35) 0 1px, transparent 1px 4px)",
-          }}
-        />
-        {/* One-time sweep: reads as the capture being taken */}
-        {!reduce && (
-          <motion.div
-            aria-hidden="true"
-            className="absolute inset-0"
-            initial={{ y: "-2%", opacity: 0 }}
-            whileInView={{ y: "100%", opacity: [0, 1, 1, 0] }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1.8, ease: [0.65, 0, 0.35, 1] }}
-          >
-            <div className="h-[2px] w-full bg-phosphor shadow-[0_0_18px_4px_rgb(244_208_18/0.55)]" />
-          </motion.div>
-        )}
-      </div>
-
-      {/* HUD corner brackets */}
-      <div aria-hidden="true" className="pointer-events-none absolute -inset-3">
-        <span className={`${BRACKET} left-0 top-0 border-l border-t`} />
-        <span className={`${BRACKET} right-0 top-0 border-r border-t`} />
-        <span className={`${BRACKET} bottom-0 left-0 border-b border-l`} />
-        <span className={`${BRACKET} bottom-0 right-0 border-b border-r`} />
-      </div>
-
-      <figcaption className="mt-6 font-body text-[14px] text-fog">
-        Shivanshu &ldquo;Zero&rdquo; Aryan, IIT Delhi
-      </figcaption>
-    </figure>
-  );
-}
+import Headline from "@/components/ui/Headline";
 
 export default function About() {
   return (
-    <section id="about" className="relative overflow-hidden border-t border-conduit bg-void">
-      <div className="mx-auto max-w-[1320px] px-5 py-24 sm:px-8 lg:px-12 lg:py-32">
-        <div className="grid items-start gap-14 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16 lg:gap-24">
-          <div className="mx-auto w-full max-w-[420px] px-3 md:mx-0 md:mt-28 md:max-w-none">
-            <ScanPortrait />
-          </div>
+    <section id="about" className="relative isolate overflow-hidden border-t border-hairline">
+      {/* Soft cool light behind the portrait, plus a masked hairline grid. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(40%_55%_at_22%_45%,rgb(160_180_205/0.10),transparent_70%)]" />
+        <div className="bg-grid absolute inset-0 opacity-40 [mask-image:radial-gradient(50%_60%_at_25%_50%,black,transparent)]" />
+      </div>
 
-          <Reveal>
-            <h2 className="font-display text-[48px] font-800 uppercase leading-[0.92] tracking-tight text-phosphor sm:text-[64px] lg:text-[84px]">
-              Why the range, not the niche
-            </h2>
+      <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="grid items-center gap-12 md:grid-cols-12 md:gap-10 lg:gap-16">
+          <figure className="mx-auto w-full max-w-[420px] md:col-span-5 md:mx-0 md:max-w-none">
+            <div className="ticks border border-hairline p-3">
+              <div className="relative aspect-square overflow-hidden">
+                <Image
+                  src="/portrait/zero-portrait-photo.jpg"
+                  alt="Portrait of Shivanshu Aryan"
+                  width={700}
+                  height={859}
+                  sizes="(min-width: 768px) 40vw, 100vw"
+                  className="h-full w-full object-cover object-top"
+                  style={{ filter: "grayscale(1) contrast(1.12) brightness(0.92)" }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-obsidian/60 via-transparent to-transparent"
+                />
+              </div>
+            </div>
+            <figcaption className="mt-4 font-body text-[14px] text-steel">
+              Shivanshu &ldquo;Zero&rdquo; Aryan, IIT Delhi
+            </figcaption>
+          </figure>
+
+          <div className="md:col-span-7">
+            <Headline lead="Why the range," follow="not the niche." />
             <div className="mt-10 max-w-[65ch] space-y-6">
-              <p className="font-body text-[17px] leading-relaxed text-fog sm:text-[18px]">
+              <p className="font-body text-[16px] leading-relaxed text-steel sm:text-[17px]">
                 I&rsquo;m a CS undergraduate at IIT Delhi, and I lead hardware and
                 controls work for the Robotics Club, where Hexabot and the
                 LiDAR-mapping stack both came out of the same team. The apportionment
@@ -96,7 +49,7 @@ export default function About() {
                 against; game theory gives it a proof; markets give it a P&amp;L. Different
                 domains, same instinct.
               </p>
-              <p className="font-body text-[17px] leading-relaxed text-fog sm:text-[18px]">
+              <p className="font-body text-[16px] leading-relaxed text-steel sm:text-[17px]">
                 None of this is random. I want to build a deep-tech company
                 eventually, and deep tech is unforgiving about the part most
                 startups skip: whether the underlying system actually works before
@@ -108,7 +61,7 @@ export default function About() {
                 public.
               </p>
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

@@ -7,9 +7,10 @@ import StudioLights from "./StudioLights";
 import Settle from "./Settle";
 import { PALETTE } from "./palette";
 import { useOnScreen } from "./hooks";
+import Pill from "@/components/Pill";
 
 /**
- * Chamfered viewport for case-study scenes. Owns the canvas, the studio
+ * Square hairline viewport (corner ticks) for case-study scenes. Owns the canvas, the studio
  * lighting and the orbit controls; pauses rendering while offscreen.
  */
 export default function Scene3DShell({
@@ -41,15 +42,18 @@ export default function Scene3DShell({
   const onScreen = useOnScreen(wrap);
 
   return (
-    <div className={`plate w-full ${className}`} style={{ height }}>
-      <div ref={wrap} className="plate-inner relative overflow-hidden bg-void" role="img" aria-label={label}>
+    <div
+      className={`relative w-full border border-hairline bg-obsidian ${className}`}
+      style={{ height }}
+    >
+      <div ref={wrap} className="absolute inset-0 overflow-hidden" role="img" aria-label={label}>
         <Canvas
           frameloop={!onScreen ? "never" : animate ? "always" : "demand"}
           camera={{ position: cameraPosition, fov, near: 0.1, far: 80 }}
           dpr={lowPower ? [1, 1.5] : [1, 1.75]}
           gl={{ antialias: false, powerPreference: "high-performance" }}
         >
-          <color attach="background" args={[PALETTE.void]} />
+          <color attach="background" args={[PALETTE.obsidian]} />
           <Suspense fallback={null}>
             <StudioLights />
             {children}
@@ -68,21 +72,13 @@ export default function Scene3DShell({
           />
           <Settle active={!animate && onScreen} />
         </Canvas>
-        {[
-          "left-4 top-4 border-l-2 border-t-2",
-          "right-4 top-4 border-r-2 border-t-2",
-          "bottom-4 left-4 border-b-2 border-l-2",
-          "bottom-4 right-4 border-b-2 border-r-2",
-        ].map((pos) => (
-          <span
-            key={pos}
-            aria-hidden="true"
-            className={`pointer-events-none absolute h-5 w-5 border-servo/70 ${pos}`}
-          />
-        ))}
-        <p className="chamfer-sm pointer-events-none absolute bottom-4 right-12 bg-hull-2/90 px-3 py-1.5 font-mono text-[12px] text-fog">
-          Drag to orbit
-        </p>
+      </div>
+      {/* ticks on their own top layer (.ticks forces position: relative, hence the wrapper) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="ticks h-full w-full" />
+      </div>
+      <div className="pointer-events-none absolute bottom-4 right-4">
+        <Pill className="bg-obsidian/70 backdrop-blur-sm">Drag to orbit</Pill>
       </div>
     </div>
   );

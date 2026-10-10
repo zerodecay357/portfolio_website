@@ -3,12 +3,12 @@
 import dynamic from "next/dynamic";
 
 // Placeholder with the exact footprint of the scene (it fills the same
-// absolutely positioned slot), so the lazy canvas never shifts layout.
-function BaySkeleton() {
+// absolutely positioned slot), so the lazy canvas never shifts layout:
+// a dark studio with a soft overhead pool where the platform will be.
+function StudioSkeleton() {
   return (
-    <div aria-hidden="true" className="absolute inset-0 bg-void">
-      <div className="bg-blueprint absolute inset-x-0 bottom-0 h-1/2 opacity-40 [mask-image:linear-gradient(to_top,black,transparent)]" />
-      <div className="absolute left-1/2 top-[58%] h-[2px] w-[38%] -translate-x-1/2 bg-conduit-2" />
+    <div aria-hidden="true" className="absolute inset-0 bg-obsidian">
+      <div className="absolute inset-0 bg-[radial-gradient(40%_32%_at_58%_62%,rgb(200_215_230/0.07),transparent_70%)]" />
     </div>
   );
 }
@@ -24,7 +24,7 @@ const HeroScene = dynamic(() => import("./HeroScene"), {
 export default function HeroSceneLoader() {
   return (
     <>
-      <BaySkeleton />
+      <StudioSkeleton />
       <HeroScene />
     </>
   );

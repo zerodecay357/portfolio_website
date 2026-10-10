@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Portfolio of Shivanshu 'Zero' Aryan, CS undergraduate at IIT Delhi working across robotics & RL, game theory, systems programming, and quantitative finance.",
     start_url: "/",
     display: "standalone",
-    background_color: "#080b10",
-    theme_color: "#080b10",
+    background_color: "#05070a",
+    theme_color: "#05070a",
     icons: [
       {
         src: "/favicon.ico",
