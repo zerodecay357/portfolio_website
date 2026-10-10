@@ -1,75 +1,50 @@
-import Link from "next/link";
-import { tier1Projects, tier2Projects } from "@/lib/projects";
-import Pill from "@/components/Pill";
-import Reveal from "@/components/Reveal";
+import { tier1Projects, type Project } from "@/lib/projects";
+import DossierStack, { type Dossier, type DossierMedia } from "@/components/work/DossierStack";
+
+// The Hexabot's real-hardware clip already plays full-bleed in FieldFootage
+// directly above, so its dossier shows the simulation twin instead.
+const PREFER_ALGORITHM_VIDEO = new Set(["hexabot-v2"]);
+
+function mediaFor(p: Project): DossierMedia | null {
+  const preferred = PREFER_ALGORITHM_VIDEO.has(p.slug)
+    ? (p.algorithmVideo ?? p.video)
+    : (p.video ?? p.algorithmVideo);
+  if (preferred) {
+    return {
+      kind: "video",
+      src: preferred.src,
+      label: preferred.caption ? `${p.title}: ${preferred.caption}` : `${p.title}, project video`,
+      caption: preferred.caption,
+    };
+  }
+  if (p.image) {
+    return { kind: "image", ...p.image };
+  }
+  return null;
+}
 
 export default function Projects() {
+  const dossiers: Dossier[] = tier1Projects.flatMap((p) => {
+    const media = mediaFor(p);
+    return media
+      ? [{ slug: p.slug, title: p.title, oneLiner: p.oneLiner, tags: p.tags, media }]
+      : [];
+  });
+
   return (
-    <section id="work" className="bg-noir px-5 py-20 sm:px-10 sm:py-28">
-      <div className="mx-auto max-w-[1180px]">
-        <p className="font-heading text-[11px] font-700 uppercase tracking-[3px] text-dim">
-          Featured Work
-        </p>
-        <h2 className="mt-3 font-heading text-3xl font-800 text-cream sm:text-4xl">
-          Latest Work
-        </h2>
-
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {tier1Projects.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.08}>
-              <Link
-                href={`/projects/${p.slug}`}
-                className="group relative block h-full overflow-hidden rounded-xl border border-noir-border bg-noir-surface p-7 transition-colors hover:border-accent"
-              >
-                <h3 className="font-heading text-xl font-700 text-cream sm:text-2xl">
-                  {p.title}
-                </h3>
-                <p className="mt-3 font-body text-[14px] leading-relaxed text-dim">
-                  {p.oneLiner}
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {p.tags.map((t) => (
-                    <Pill key={t} tone="neutral">
-                      {t}
-                    </Pill>
-                  ))}
-                </div>
-                <span className="mt-6 inline-flex items-center gap-1.5 font-heading text-[12px] font-700 uppercase tracking-[1px] text-accent">
-                  Explore the build
-                  <span className="transition-transform group-hover:translate-x-1">
-                    &rarr;
-                  </span>
-                </span>
-              </Link>
-            </Reveal>
-          ))}
+    <section id="work" className="relative scroll-mt-20 bg-void pt-24 pb-16 md:pt-32 md:pb-10">
+      <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
+        <div className="flex flex-col gap-5">
+          <h2 className="font-display text-[clamp(2.75rem,6vw,5.5rem)] font-800 uppercase leading-[0.92] tracking-[-0.01em] text-phosphor">
+            Four projects, written up in full
+          </h2>
+          <p className="max-w-[46ch] text-[16px] leading-relaxed text-fog">
+            Each one has a case study covering the motivation, the approach, the
+            trade-offs and the result.
+          </p>
         </div>
-
-        <p className="mt-20 font-heading text-[11px] font-700 uppercase tracking-[3px] text-dim">
-          Secondary Projects
-        </p>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2">
-          {tier2Projects.map((p) => (
-            <Link
-              key={p.slug}
-              href={`/projects/${p.slug}`}
-              className="group rounded-lg border border-noir-border p-5 transition-colors hover:border-accent"
-            >
-              <h3 className="font-heading text-base font-700 text-cream">
-                {p.title}
-              </h3>
-              <p className="mt-2 font-body text-[13.5px] leading-relaxed text-dim">
-                {p.oneLiner}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {p.tags.map((t) => (
-                  <Pill key={t} tone="neutral">
-                    {t}
-                  </Pill>
-                ))}
-              </div>
-            </Link>
-          ))}
+        <div className="mt-14 md:mt-6">
+          <DossierStack dossiers={dossiers} />
         </div>
       </div>
     </section>

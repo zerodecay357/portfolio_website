@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Baloo_2, Poppins, Inter } from "next/font/google";
+import { Big_Shoulders, Geist, Geist_Mono } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ScrollProgress from "@/components/ScrollProgress";
+import { Z } from "@/lib/z";
 import "./globals.css";
 
-const baloo = Baloo_2({
-  variable: "--font-baloo",
-  weight: ["600", "700", "800"],
+const bigShoulders = Big_Shoulders({
+  variable: "--font-big-shoulders",
+  subsets: ["latin"],
+  axes: ["opsz"],
+  display: "swap",
+});
+
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
   display: "swap",
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
-  weight: ["600", "700", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  weight: ["400", "500", "600"],
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -49,19 +49,25 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#14120F",
+  themeColor: "#080b10",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${baloo.variable} ${poppins.variable} ${inter.variable} h-full antialiased`}
+      className={`${bigShoulders.variable} ${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink">
+      <body className="flex min-h-full flex-col bg-void text-phosphor">
+        <ScrollProgress />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
+        <div
+          aria-hidden="true"
+          className="crt-overlay pointer-events-none fixed inset-0"
+          style={{ zIndex: Z.overlay }}
+        />
       </body>
     </html>
   );

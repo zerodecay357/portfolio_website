@@ -2,23 +2,46 @@
 
 import dynamic from "next/dynamic";
 import Scene3DShell from "./Scene3DShell";
+import { useMediaQuery, useReducedMotionPref } from "./hooks";
 import type { ThreeDKind } from "@/lib/projects";
 
 const HexapodRig = dynamic(() => import("./HexapodRig"), { ssr: false });
 const LidarPointCloud = dynamic(() => import("./LidarPointCloud"), { ssr: false });
 
-const CAMERA: Record<ThreeDKind, [number, number, number]> = {
-  hexapod: [3.2, 2.4, 3.6],
-  "lidar-map": [4.5, 3.2, 4.5],
+const VIEW: Record<
+  ThreeDKind,
+  { camera: [number, number, number]; target: [number, number, number]; label: string }
+> = {
+  hexapod: {
+    camera: [2.7, 1.7, 3],
+    target: [0, 0.35, 0],
+    label: "Interactive 3D model of the Hexabot V2 hexapod on a scan floor. Drag to orbit.",
+  },
+  "lidar-map": {
+    camera: [4.6, 4.4, 5.2],
+    target: [0, 0.3, 0],
+    label:
+      "Interactive 3D LiDAR point cloud of a mapped room, colored by height, with the robot's trajectory. Drag to orbit.",
+  },
 };
 
 export default function ProjectScene({ kind }: { kind: ThreeDKind }) {
-  const camera = CAMERA[kind];
+  const reduced = useReducedMotionPref();
+  const lowPower = useMediaQuery("(max-width: 767px)");
+  const view = VIEW[kind];
+  const animate = !reduced;
 
   return (
-    <Scene3DShell cameraPosition={camera} height={440}>
-      {kind === "hexapod" && <HexapodRig />}
-      {kind === "lidar-map" && <LidarPointCloud />}
+    <Scene3DShell
+      cameraPosition={view.camera}
+      target={view.target}
+      height={440}
+      animate={animate}
+      lowPower={lowPower}
+      label={view.label}
+    >
+      {kind === "hexapod" && <HexapodRig animate={animate} lowPower={lowPower} />}
+      {kind === "lidar-map" && <LidarPointCloud animate={animate} lowPower={lowPower} />}
     </Scene3DShell>
   );
 }

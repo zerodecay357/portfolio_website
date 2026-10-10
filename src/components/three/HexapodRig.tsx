@@ -1,40 +1,47 @@
 "use client";
 
-import { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import * as THREE from "three";
+import { Sparkles } from "@react-three/drei";
 import HexapodModel from "./HexapodModel";
+import ScanFloor, { OVERLAY_LAYER } from "./ScanFloor";
+import ScanEffects from "./ScanEffects";
+import { PALETTE } from "./palette";
 
-export default function HexapodRig() {
-  const group = useRef<THREE.Group>(null);
-  const baseY = 0.02;
+const SCALE = 3.2;
 
-  useFrame(({ clock }) => {
-    if (group.current) {
-      group.current.position.y = baseY + Math.sin(clock.getElapsedTime() * 1.2) * 0.02;
-    }
-  });
-
+// Case-study turntable: the same PBR hexapod and scan floor as the hero,
+// without the bay architecture so the orbit stays about the robot.
+export default function HexapodRig({
+  animate = true,
+  lowPower = false,
+}: {
+  animate?: boolean;
+  lowPower?: boolean;
+}) {
   return (
-    <group ref={group} position={[0, baseY, 0]} scale={5.2}>
-      <HexapodModel glowIntensity={0.6} />
-
-      {/* interesting lighting — warm key + cool rim, playing off the joint glow */}
-      <pointLight position={[0, 1.4, 0]} intensity={0.6} color="#B9826A" distance={3} />
-      <pointLight position={[-0.6, 0.5, 0.6]} intensity={0.5} color="#CBB892" distance={2.5} />
-      <pointLight position={[0.5, 0.3, -0.6]} intensity={0.45} color="#8C9A7B" distance={2.5} />
-
-      <gridHelper args={[1.6, 20, "#8A8275", "#232019"]} position={[0, -0.005, 0]} />
-
-      <EffectComposer>
-        <Bloom
-          intensity={1.4}
-          luminanceThreshold={0.25}
-          luminanceSmoothing={0.3}
-          mipmapBlur
-        />
-      </EffectComposer>
-    </group>
+    <>
+      <fog attach="fog" args={[PALETTE.void, 6, 15]} />
+      <group scale={SCALE}>
+        <HexapodModel animate={animate} />
+      </group>
+      <ScanFloor
+        reflector={!lowPower}
+        animate={animate}
+        lowPower={lowPower}
+        radius={3.6}
+        center={[0.086 * SCALE, 0, 0]}
+        sensorHeight={0.291 * SCALE}
+      />
+      <Sparkles
+        count={lowPower ? 20 : 50}
+        scale={[6, 2.4, 6]}
+        position={[0, 1.3, 0]}
+        size={1.5}
+        speed={animate ? 0.2 : 0}
+        opacity={0.3}
+        color="#a9c4cc"
+        layers={OVERLAY_LAYER}
+      />
+      <ScanEffects lowPower={lowPower} />
+    </>
   );
 }

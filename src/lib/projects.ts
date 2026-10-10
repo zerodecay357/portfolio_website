@@ -1,6 +1,6 @@
 export type ProjectTier = 1 | 2;
 
-// 3D is reserved for projects that are genuinely spatial/hardware —
+// 3D is reserved for projects that are genuinely spatial/hardware:
 // the hexapod, the LiDAR point cloud, the RGB-D capture. Dropped for
 // the more abstract projects (apportionment, quant, RISC-V pipeline),
 // where a forced 3D visual read as decoration rather than evidence.
@@ -44,13 +44,13 @@ export type MoreBuild = {
 const GITHUB = "https://github.com/zerodecay357";
 const REPO = (name: string) => `${GITHUB}/${name}`;
 
-// Tier 1 — full case studies
+// Tier 1: full case studies
 import { sections as apportionmentSections } from "@/content/projects/apportionment-manipulation";
 import { sections as hexabotSections } from "@/content/projects/hexabot-v2";
 import { sections as kfsSections } from "@/content/projects/kfs-synth";
 import { sections as col334Sections } from "@/content/projects/col334-networks";
 
-// Tier 2 — shorter write-ups
+// Tier 2: shorter write-ups
 import { summary as riscvSummary } from "@/content/projects/riscv-simulator";
 import { summary as lidarSummary } from "@/content/projects/lidar-mapping";
 import { summary as leveldbSummary } from "@/content/projects/leveldb-range";
@@ -167,7 +167,7 @@ export const projects: Project[] = [
       "FAST-LIO2 scan-to-map odometry fused with a full Nav2 autonomy stack on a 23-dimensional manifold state.",
     tags: ["Robotics", "SLAM", "Robotics Club"],
     threeD: "lidar-map",
-    // No public repo — Robotics Club project, code isn't on the personal account.
+    // No public repo: Robotics Club project, code isn't on the personal account.
     links: [],
     summary: lidarSummary,
   },
@@ -189,7 +189,7 @@ export const projects: Project[] = [
     oneLiner:
       "A dollar- and beta-neutral equity pipeline (linear blend, CVXPY optimizer, and a LightGBM walk-forward classifier, compared on one backtest engine), run live on Qube Research & Technologies' trading platform.",
     tags: ["Quant Finance", "ML", "Qube Research & Technologies"],
-    // Ran on QRT's live proprietary platform — no public repo.
+    // Ran on QRT's live proprietary platform: no public repo.
     links: [],
     summary: qubeSummary,
   },

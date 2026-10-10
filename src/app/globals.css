@@ -1,39 +1,53 @@
 @import "tailwindcss";
 
+/*
+  "Scan bay" theme: an industrial-robotics control room.
+  One accent (servo yellow, the color of industrial arms and hazard
+  marking). Coolant cyan is reserved for 3D / sensor data only.
+  Shape rule: every panel and button is a chamfered plate, never rounded.
+*/
 :root {
-  /* Light "scrapbook" register — Hero / About / CV */
-  --paper: #EDEAE3;
-  --paper-dot: #6e665b14;
-  --ink: #2D2A26;
-  --muted: #6E665B;
-  --muted-2: #8A8275;
-  --terracotta: #B9826A;
-  --sage: #8C9A7B;
-  --gold: #CBB892;
-  --blush: #FFC7DF;
+  --void: #080b10;
+  --hull: #0f151c;
+  --hull-2: #141c25;
+  --conduit: #1d2833;
+  --conduit-2: #2a3846;
+  --phosphor: #e8eef2;
+  --fog: #8796a5;
+  --fog-2: #5f6d7b;
+  --servo: #f4d012;
+  --servo-soft: #f4d0121f;
+  --coolant: #3fd7e6;
 
-  /* Dark "professional" register — project case studies / 3D */
-  --noir: #14120F;
-  --noir-surface: #1C1A17;
-  --noir-surface-2: #232019;
-  --noir-border: #322D26;
-  --cream: #F3EFE8;
-  --dim: #9A9082;
+  /* Legacy token names, remapped so older markup inherits the theme. */
+  --noir: var(--void);
+  --noir-surface: var(--hull);
+  --noir-surface-2: var(--hull-2);
+  --noir-border: var(--conduit);
+  --cream: var(--phosphor);
+  --dim: var(--fog);
+  --accent: var(--servo);
+  --accent-soft: var(--servo-soft);
 
-  /* Single restrained accent, carried across both registers */
-  --accent: #B9826A;
-  --accent-soft: #B9826A26;
+  /* Chamfer sizes for clip-path plates */
+  --cut: 18px;
+  --cut-sm: 9px;
+
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-muted-2: var(--muted-2);
-  --color-terracotta: var(--terracotta);
-  --color-sage: var(--sage);
-  --color-gold: var(--gold);
-  --color-blush: var(--blush);
+  --color-void: var(--void);
+  --color-hull: var(--hull);
+  --color-hull-2: var(--hull-2);
+  --color-conduit: var(--conduit);
+  --color-conduit-2: var(--conduit-2);
+  --color-phosphor: var(--phosphor);
+  --color-fog: var(--fog);
+  --color-fog-2: var(--fog-2);
+  --color-servo: var(--servo);
+  --color-servo-soft: var(--servo-soft);
+  --color-coolant: var(--coolant);
 
   --color-noir: var(--noir);
   --color-noir-surface: var(--noir-surface);
@@ -41,57 +55,156 @@
   --color-noir-border: var(--noir-border);
   --color-cream: var(--cream);
   --color-dim: var(--dim);
-
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
 
-  --font-display: var(--font-baloo), cursive;
-  --font-heading: var(--font-poppins), sans-serif;
-  --font-body: -apple-system, BlinkMacSystemFont, var(--font-inter), "Segoe UI", sans-serif;
+  --font-display: var(--font-big-shoulders), "Arial Narrow", sans-serif;
+  --font-heading: var(--font-geist), system-ui, sans-serif;
+  --font-body: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Numeric font-weight utilities (font-500/600/700/800) used throughout —
-     Tailwind's default scale only ships named tokens. */
   --font-weight-500: 500;
   --font-weight-600: 600;
   --font-weight-700: 700;
   --font-weight-800: 800;
 }
 
-@keyframes zfloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-7px); }
-}
-
 html {
   scroll-behavior: smooth;
+  background: var(--void);
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--void);
+  color: var(--phosphor);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
-.bg-dotgrid {
-  background-image: radial-gradient(var(--paper-dot) 1px, transparent 1px);
-  background-size: 22px 22px;
+::selection {
+  background: var(--servo);
+  color: var(--void);
 }
 
-.animate-zfloat {
-  animation: zfloat 6s ease-in-out infinite;
+:focus-visible {
+  outline: 2px solid var(--servo);
+  outline-offset: 3px;
+}
+
+/* ---------- Machined-plate shapes ---------- */
+.chamfer {
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+}
+.chamfer-sm {
+  clip-path: polygon(
+    var(--cut-sm) 0,
+    100% 0,
+    100% calc(100% - var(--cut-sm)),
+    calc(100% - var(--cut-sm)) 100%,
+    0 100%,
+    0 var(--cut-sm)
+  );
+}
+
+/*
+  Bordered plate: clip-path eats borders, so the border is painted as a
+  1px gradient frame on an outer chamfer with the fill on an inner one.
+  Usage: <div class="plate"><div class="plate-inner">...</div></div>
+*/
+.plate {
+  --plate-edge: var(--conduit-2);
+  background: var(--plate-edge);
+  padding: 1px;
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.plate-inner {
+  background: var(--hull);
+  height: 100%;
+  clip-path: polygon(
+    calc(var(--cut) - 0.5px) 0,
+    100% 0,
+    100% calc(100% - var(--cut) + 0.5px),
+    calc(100% - var(--cut) + 0.5px) 100%,
+    0 100%,
+    0 calc(var(--cut) - 0.5px)
+  );
+}
+.plate:hover,
+.plate:focus-within {
+  --plate-edge: var(--servo);
+}
+
+/* ---------- Surfaces ---------- */
+/* Perspective-free blueprint grid, used behind data sections */
+.bg-blueprint {
+  background-image:
+    linear-gradient(var(--conduit) 1px, transparent 1px),
+    linear-gradient(90deg, var(--conduit) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
+}
+
+/* Hazard stripe, used once as a section divider band */
+.bg-hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--servo) 0 14px,
+    var(--void) 14px 28px
+  );
+}
+
+/* Fixed CRT scanline + vignette overlay (never on scrolling elements) */
+.crt-overlay {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(232 238 242 / 0.025) 0 1px,
+      transparent 1px 3px
+    ),
+    radial-gradient(ellipse at center, transparent 55%, rgb(8 11 16 / 0.55) 100%);
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1.1s steps(1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .animate-zfloat {
-    animation: none;
-  }
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* clip-path hides outlines drawn outside the box, so chamfered controls
+   draw their focus ring inside the plate instead. */
+.chamfer:focus-visible,
+.chamfer-sm:focus-visible,
+.plate:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: -5px;
 }

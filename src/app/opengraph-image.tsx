@@ -1,18 +1,25 @@
 import { ImageResponse } from "next/og";
 
-export const alt =
-  "Shivanshu Aryan — Robotics, Game Theory, Systems, Quant";
+export const alt = "Shivanshu Aryan: Robotics, Game Theory, Systems, Quant";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Flat, on-brand hexapod silhouette — echoes HexapodModel.tsx's chassis /
-// leg / joint coloring, drawn instead of screenshotting the live 3D model
-// since satori can't render WebGL.
+const VOID = "#080b10";
+const HULL = "#0f151c";
+const CONDUIT = "#1d2833";
+const CONDUIT_2 = "#2a3846";
+const PHOSPHOR = "#e8eef2";
+const FOG = "#8796a5";
+const SERVO = "#f4d012";
+
+// Flat hexapod silhouette in the scan-bay palette, drawn instead of
+// screenshotting the live 3D model since satori can't render WebGL.
+// Chassis is a chamfered plate, matching the site's shape rule.
 function HexapodMark() {
   const nearLegs = [
-    { hip: [195, 220], knee: [165, 290], foot: [140, 335], joint: "#CBB892" },
-    { hip: [280, 220], knee: [280, 295], foot: [280, 340], joint: "#8C9A7B" },
-    { hip: [365, 220], knee: [395, 290], foot: [420, 335], joint: "#CBB892" },
+    { hip: [195, 220], knee: [165, 290], foot: [140, 335] },
+    { hip: [280, 220], knee: [280, 295], foot: [280, 340] },
+    { hip: [365, 220], knee: [395, 290], foot: [420, 335] },
   ];
   const farLegs = [
     { hip: [163, 200], knee: [133, 268], foot: [108, 313] },
@@ -26,30 +33,47 @@ function HexapodMark() {
         <path
           key={`far-${i}`}
           d={`M ${l.hip[0]} ${l.hip[1]} L ${l.knee[0]} ${l.knee[1]} L ${l.foot[0]} ${l.foot[1]}`}
-          stroke="#5C4F3F"
+          stroke={CONDUIT_2}
           strokeWidth={8}
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeLinejoin="miter"
         />
       ))}
       {nearLegs.map((l, i) => (
         <path
           key={`near-${i}`}
           d={`M ${l.hip[0]} ${l.hip[1]} L ${l.knee[0]} ${l.knee[1]} L ${l.foot[0]} ${l.foot[1]}`}
-          stroke="#B9826A"
+          stroke={FOG}
           strokeWidth={10}
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeLinejoin="miter"
         />
       ))}
       {nearLegs.map((l, i) => (
-        <circle key={`joint-${i}`} cx={l.knee[0]} cy={l.knee[1]} r={9} fill={l.joint} />
+        <rect
+          key={`joint-${i}`}
+          x={l.knee[0] - 9}
+          y={l.knee[1] - 9}
+          width={18}
+          height={18}
+          fill={SERVO}
+        />
       ))}
       {nearLegs.map((l, i) => (
-        <circle key={`foot-${i}`} cx={l.foot[0]} cy={l.foot[1]} r={6} fill="#B9826A" />
+        <rect
+          key={`foot-${i}`}
+          x={l.foot[0] - 6}
+          y={l.foot[1] - 6}
+          width={12}
+          height={12}
+          fill={PHOSPHOR}
+        />
       ))}
-      <rect x={170} y={150} width={220} height={70} rx={30} fill="#232019" stroke="#B9826A" strokeWidth={3} />
-      <circle cx={382} cy={185} r={10} fill="#CBB892" />
+      <polygon
+        points="186,150 390,150 390,204 374,220 170,220 170,166"
+        fill={HULL}
+        stroke={SERVO}
+        strokeWidth={3}
+      />
+      <rect x={366} y={177} width={14} height={14} fill={SERVO} />
     </svg>
   );
 }
@@ -63,17 +87,12 @@ export default function Image() {
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#14120F",
+          backgroundColor: VOID,
+          backgroundImage: `linear-gradient(${CONDUIT} 1px, transparent 1px), linear-gradient(90deg, ${CONDUIT} 1px, transparent 1px)`,
+          backgroundSize: "56px 56px",
         }}
       >
-        <div
-          style={{
-            height: 8,
-            width: "100%",
-            display: "flex",
-            backgroundImage: "linear-gradient(to right, #B9826A, #FFC7DF)",
-          }}
-        />
+        <div style={{ height: 8, width: "100%", display: "flex", backgroundColor: SERVO }} />
         <div
           style={{
             flex: 1,
@@ -85,41 +104,26 @@ export default function Image() {
             padding: "70px 80px",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", maxWidth: 600 }}>
-            <div
-              style={{
-                display: "flex",
-                fontSize: 24,
-                fontWeight: 700,
-                letterSpacing: 3,
-                textTransform: "uppercase",
-                color: "#B9826A",
-              }}
-            >
-              CS Undergraduate · IIT Delhi
+          <div style={{ display: "flex", flexDirection: "column", maxWidth: 620 }}>
+            <div style={{ display: "flex", fontSize: 26, fontWeight: 600, color: SERVO }}>
+              CS undergraduate, IIT Delhi
             </div>
             <div
               style={{
                 display: "flex",
                 marginTop: 18,
-                fontSize: 78,
+                fontSize: 92,
                 fontWeight: 800,
-                color: "#F3EFE8",
-                lineHeight: 1,
+                color: PHOSPHOR,
+                lineHeight: 0.95,
+                letterSpacing: -2,
+                textTransform: "uppercase",
               }}
             >
               Shivanshu Aryan
             </div>
-            <div
-              style={{
-                display: "flex",
-                marginTop: 22,
-                fontSize: 30,
-                fontWeight: 600,
-                color: "#9A9082",
-              }}
-            >
-              Robotics · Game Theory · Systems · Quant
+            <div style={{ display: "flex", marginTop: 24, fontSize: 30, fontWeight: 600, color: FOG }}>
+              Robotics, game theory, systems, quant
             </div>
             <div
               style={{
@@ -128,22 +132,13 @@ export default function Image() {
                 alignItems: "center",
                 borderLeftWidth: 6,
                 borderLeftStyle: "solid",
-                borderLeftColor: "#B9826A",
-                backgroundColor: "rgba(185,130,106,0.14)",
+                borderLeftColor: SERVO,
+                backgroundColor: "rgba(244,208,18,0.12)",
                 padding: "14px 26px",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: 22,
-                  fontWeight: 700,
-                  letterSpacing: 1,
-                  textTransform: "uppercase",
-                  color: "#B9826A",
-                }}
-              >
-                Incoming Intern · Peak XV Partners
+              <div style={{ display: "flex", fontSize: 24, fontWeight: 700, color: SERVO }}>
+                Incoming intern, Peak XV Partners
               </div>
             </div>
           </div>
@@ -151,24 +146,14 @@ export default function Image() {
           <div
             style={{
               display: "flex",
-              position: "relative",
               width: 460,
               height: 360,
               alignItems: "center",
               justifyContent: "center",
+              backgroundColor: "rgba(15,21,28,0.85)",
+              border: `1px solid ${CONDUIT_2}`,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                position: "absolute",
-                width: 380,
-                height: 380,
-                borderRadius: 9999,
-                backgroundColor: "#B9826A",
-                opacity: 0.16,
-              }}
-            />
             <HexapodMark />
           </div>
         </div>

@@ -1,16 +1,19 @@
 const TONES = {
-  terracotta: "bg-terracotta/15 text-terracotta border-terracotta/30",
-  sage: "bg-sage/15 text-sage border-sage/35",
-  gold: "bg-gold/20 text-[#8a7645] border-gold/40",
-  accent: "bg-accent-soft text-accent border-accent/40",
-  neutral: "bg-white/5 text-dim border-noir-border",
+  servo: "bg-servo-soft text-servo",
+  neutral: "bg-hull-2 text-fog",
+  // Legacy tone names map onto the two above.
+  accent: "bg-servo-soft text-servo",
+  terracotta: "bg-servo-soft text-servo",
+  sage: "bg-hull-2 text-fog",
+  gold: "bg-hull-2 text-fog",
 } as const;
 
 const SIZES = {
-  sm: "px-3 py-1 text-[11px]",
-  md: "px-4 py-1.5 text-[13px]",
+  sm: "px-2.5 py-1 text-[12px]",
+  md: "px-3 py-1.5 text-[13px]",
 } as const;
 
+// Small chamfered tag. Sentence case, Geist Mono: reads as a part label.
 export default function Pill({
   children,
   tone = "neutral",
@@ -24,7 +27,7 @@ export default function Pill({
 }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border font-semibold uppercase tracking-wide font-heading ${SIZES[size]} ${TONES[tone]} ${className}`}
+      className={`chamfer-sm inline-flex items-center font-mono ${SIZES[size]} ${TONES[tone]} ${className}`}
     >
       {children}
     </span>

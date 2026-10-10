@@ -1,90 +1,116 @@
-import Image from "next/image";
-import Pill from "@/components/Pill";
-import { SquiggleDoodle, SparkleDoodle } from "@/components/Doodles";
+"use client";
 
-const TAGS = ["Robotics & RL", "Game Theory", "Systems", "Quant"];
+import { motion, useReducedMotion } from "motion/react";
+import { DownloadSimple } from "@phosphor-icons/react";
+import Button from "@/components/ui/Button";
+import HeroSceneLoader from "@/components/three/HeroSceneLoader";
+import { Z } from "@/lib/z";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+const LINES = ["Shivanshu", "Aryan"];
+
+// HUD corner brackets, drawn with borders. Inset past the 18px chamfer.
+const BRACKETS = [
+  "left-4 top-4 border-l-2 border-t-2",
+  "right-4 top-4 border-r-2 border-t-2",
+  "bottom-4 left-4 border-b-2 border-l-2",
+  "bottom-4 right-4 border-b-2 border-r-2",
+];
 
 export default function Hero() {
+  const reduce = useReducedMotion();
+  // One page-load sequence: copy rises in, then the scan bay powers up.
+  const rise = (delay: number) =>
+    reduce
+      ? { initial: false as const }
+      : {
+          initial: { opacity: 0, y: 18 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.7, delay, ease: EASE },
+        };
+
   return (
-    <section className="relative overflow-hidden bg-dotgrid px-5 pb-20 pt-16 sm:px-10 sm:pt-20">
-      {/* scattered doodles — kept sparse per the "restraint" principle */}
-      <SquiggleDoodle className="pointer-events-none absolute left-4 top-10 hidden -rotate-3 sm:block" />
-      <SparkleDoodle
-        className="pointer-events-none absolute right-10 top-24 hidden rotate-12 sm:block"
-        fill="var(--sage)"
+    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden bg-void">
+      <div
+        aria-hidden="true"
+        className="bg-blueprint absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(ellipse_70%_60%_at_20%_45%,black,transparent)]"
       />
 
-      <div className="relative mx-auto flex max-w-[1180px] flex-col-reverse items-center gap-14 sm:flex-row sm:items-center sm:justify-between">
-        <div className="max-w-[620px]">
-          <p className="font-heading text-[13px] font-700 uppercase tracking-[3px] text-terracotta">
-            CS Undergraduate, IIT Delhi
-          </p>
+      <div className="mx-auto grid min-h-[calc(100dvh-64px)] max-w-[1320px] grid-cols-1 content-center items-center gap-10 px-5 pb-10 pt-10 sm:px-8 sm:pt-14 lg:grid-cols-12 lg:gap-6 lg:px-12 lg:pb-14 lg:pt-10">
+        <div className="relative lg:col-span-5" style={{ zIndex: Z.raised }}>
+          <motion.p {...rise(0.05)} className="flex items-center gap-3 font-body text-[15px] leading-snug text-fog">
+            <span aria-hidden="true" className="h-[2px] w-6 shrink-0 bg-servo" />
+            <span>
+              CS undergraduate, IIT Delhi. Incoming intern at{" "}
+              <a
+                href="https://www.peakxv.com/"
+                target="_blank"
+                rel="noopener"
+                className="text-phosphor underline decoration-servo decoration-2 underline-offset-4 transition-colors hover:text-servo"
+              >
+                Peak XV Partners
+              </a>
+            </span>
+          </motion.p>
+
           <h1
-            className="mt-3 font-display text-[34px] font-800 leading-[0.95] text-ink sm:text-[56px]"
-            style={{ transform: "rotate(-0.6deg)" }}
+            id="hero-title"
+            className="mt-6 font-display text-[clamp(4rem,7.6vw,9.5rem)] font-800 uppercase leading-[0.86] tracking-[-0.01em] text-phosphor"
           >
-            Shivanshu Aryan
+            {LINES.map((line, i) => (
+              <span key={line} className="block overflow-hidden pb-[0.04em]">
+                <motion.span
+                  className="block whitespace-nowrap"
+                  initial={reduce ? false : { y: "105%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.12 + i * 0.12, ease: EASE }}
+                >
+                  {line}
+                </motion.span>
+              </span>
+            ))}
           </h1>
 
-          <a
-            href="https://www.peakxv.com/"
-            target="_blank"
-            rel="noopener"
-            className="mt-5 inline-flex items-center gap-3 rounded-r-md border-l-4 border-terracotta bg-terracotta/10 py-2.5 pl-4 pr-6 transition-colors hover:bg-terracotta/20"
-            style={{ transform: "rotate(-0.4deg)" }}
+          <motion.p
+            {...rise(0.42)}
+            className="mt-6 max-w-[42ch] font-body text-[17px] leading-relaxed text-fog sm:text-[18px]"
           >
-            <span className="font-heading text-[15px] font-700 uppercase tracking-[0.5px] text-terracotta">
-              Incoming Intern &middot; Peak XV Partners
-            </span>
-          </a>
-          <p className="mt-5 max-w-[480px] font-body text-[16px] font-500 leading-relaxed text-muted sm:text-[17px]">
-            I build things across robotics, game theory, systems, and
-            quantitative finance: an RL-trained hexapod, a proof about
-            manipulating apportionment methods, an out-of-order CPU
-            simulator, and a strategy that traded on a live book. Four
-            fields, one habit: build it, then prove it holds up.
-          </p>
+            I build things across robotics, game theory, systems, and quantitative finance. One habit:
+            build it, then prove it holds up.
+          </motion.p>
 
-          <div className="mt-7 flex flex-wrap gap-3">
-            {TAGS.map((t) => (
-              <Pill key={t} tone="terracotta" size="md">
-                {t}
-              </Pill>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#work"
-              className="rounded-md bg-ink px-5 py-3 font-heading text-[13px] font-600 tracking-wide text-white transition-colors hover:bg-terracotta"
-            >
-              VIEW FEATURED WORK
-            </a>
-          </div>
+          <motion.div {...rise(0.52)} className="mt-8 flex flex-wrap gap-3">
+            <Button href="/#work">View projects</Button>
+            <Button href="/cv/Shivanshu_Aryan_CV.pdf" variant="ghost">
+              <DownloadSimple size={18} weight="bold" aria-hidden="true" />
+              Download CV
+            </Button>
+          </motion.div>
         </div>
 
-        {/* portrait — glows, doodled corners, no motion */}
-        <div className="relative w-[250px] shrink-0 sm:w-[280px]" aria-hidden="false">
-          <div className="absolute -inset-x-10 -inset-y-8 rounded-full bg-terracotta opacity-30 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[18px] shadow-[0_18px_36px_rgba(185,130,106,.28)]">
-            <Image
-              src="/portrait/zero-portrait-photo.jpg"
-              alt="Portrait of Shivanshu &lsquo;Zero&rsquo; Aryan"
-              width={700}
-              height={859}
-              priority
-              className="block h-auto w-full"
-            />
+        {/* The scan bay: bleeds to the right viewport edge on desktop */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 0.65, ease: EASE }}
+          className="relative -mx-5 h-[60vh] min-h-[340px] sm:-mx-8 lg:col-span-7 lg:mx-0 lg:mr-[calc(-1*max(0px,(100vw_-_1320px)/2)_-_3rem)] lg:h-[min(76dvh,740px)] lg:min-h-[480px]"
+        >
+          <div className="plate h-full">
+            <div className="plate-inner relative overflow-hidden">
+              <HeroSceneLoader />
+              {BRACKETS.map((pos) => (
+                <span
+                  key={pos}
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute h-6 w-6 border-servo/80 ${pos}`}
+                />
+              ))}
+              <p className="pointer-events-none absolute bottom-6 left-12 font-mono text-[12px] tracking-[0.04em] text-fog">
+                Hexabot V2 / 18 DOF
+              </p>
+            </div>
           </div>
-          <div
-            className="absolute -left-14 top-8 font-display text-[15px] font-700 text-muted"
-            style={{ transform: "rotate(-10deg)" }}
-          >
-            me &#8600;
-          </div>
-          <SparkleDoodle className="absolute -right-3 -top-3 h-9 w-9 rotate-6" />
-          <SquiggleDoodle className="absolute -bottom-6 -right-8 h-10 w-28 rotate-6 opacity-70" />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
